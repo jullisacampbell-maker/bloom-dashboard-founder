@@ -1,0 +1,3077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bloom OS V17 — Founder Cloud Sync</title>
+  <meta name="description" content="Bloom OS is the calm family command center for homeschool moms and mompreneurs. Plan meals, homeschool, your week, and your business goals — all in one place. Free to try.">
+  <meta name="keywords" content="homeschool mom planner, family command center, meal planning app, mom dashboard, mompreneur tools, homeschool hub, weekly planner for moms">
+  <meta name="author" content="Bloom OS">
+  <meta name="theme-color" content="#4a7858">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Bloom OS">
+  <link rel="apple-touch-icon" href="bloom-icon.png">
+  <link rel="icon" type="image/png" href="bloom-icon.png">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%234a7858'/><text y='.9em' font-size='72' x='12'>&#x1F33F;</text></svg>">
+  <meta property="og:title" content="Bloom OS — Your week, handled.">
+  <meta property="og:description" content="Stop being the family project manager. Bloom OS plans your meals, homeschool, weekly schedule and business goals in one calm dashboard. Free to try.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jullisacampbell-maker.github.io/bloom-dashboard/">
+  <meta property="og:image" content="https://jullisacampbell-maker.github.io/bloom-dashboard/og-image.png">
+  <meta property="og:site_name" content="Bloom OS">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Bloom OS — Your week, handled.">
+  <meta name="twitter:description" content="The family command center for homeschool moms and mompreneurs. Free to try.">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6f2eb;
+      --surface: #fffcf7;
+      --surface2: #fdf8f2;
+      --text: #26201a;
+      --text-soft: #6b6059;
+      --text-muted: #a8988e;
+      --sage: #4a7858;
+      --sage-mid: #6b9e78;
+      --sage-pale: #e4ede7;
+      --sage-dark: #325640;
+      --gold: #c9973a;
+      --gold-pale: #fdf3e0;
+      --gold-dark: #a67828;
+      --terra: #c07050;
+      --terra-pale: #f8ece5;
+      --border: #e6ddd4;
+      --border-soft: #ede6dc;
+      --shadow-xs: 0 1px 4px rgba(38,32,26,.06);
+      --shadow-sm: 0 3px 10px rgba(38,32,26,.07);
+      --shadow-md: 0 8px 28px rgba(38,32,26,.10);
+      --shadow-lg: 0 20px 50px rgba(38,32,26,.13);
+      --r: 20px;
+      --r-sm: 12px;
+      --r-pill: 999px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+    /* DARK MODE */
+    body.dark-mode { --bg:#1a1612; --surface:#231f1a; --surface2:#2a2520; --text:#f0ebe3; --text-soft:#b8a898; --text-muted:#7a6a5a; --border:#3a3028; --border-soft:#332e28; --sage-pale:#1e2b20; --gold-pale:#2a2010; --terra-pale:#2a1e18; }
+    body.dark-mode .marketing-nav { background:rgba(26,22,18,.92); }
+    body.dark-mode .hero { background:none; }
+    body.dark-mode .plan-card, body.dark-mode .feature-card, body.dark-mode .testimonial { background:var(--surface2); }
+
+    #landing { display: block; }
+    #app { display: none; }
+    #successPage { display: none; }
+
+    /* === MARKETING NAV === */
+    .marketing-nav { position:sticky;top:0;z-index:50;background:rgba(246,242,235,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 28px; }
+    .nav-inner { max-width:1120px;margin:auto;display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px; }
+    .nav-logo { display:flex;align-items:center;gap:10px;text-decoration:none; }
+    .nav-logo-mark { width:34px;height:34px;border-radius:10px;background:var(--sage);display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 3px 8px rgba(74,120,88,.25); }
+    .nav-logo-name { font-family:'Lora',serif;font-size:1.1rem;font-weight:700;color:var(--text);letter-spacing:-.02em; }
+    .nav-links { display:flex;align-items:center;gap:6px; }
+    .nav-link { font-size:13px;font-weight:600;color:var(--text-soft);background:none;border:none;cursor:pointer;padding:7px 14px;border-radius:var(--r-pill);font-family:'Inter',sans-serif;transition:all .15s; }
+    .nav-link:hover { color:var(--text);background:var(--surface); }
+    .nav-cta { background:var(--sage);color:#fff;border:none;border-radius:var(--r-pill);padding:9px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 4px 12px rgba(74,120,88,.25);transition:all .17s; }
+    .nav-cta:hover { background:var(--sage-dark);transform:translateY(-1px); }
+
+    /* === HERO === */
+    .hero { max-width:1120px;margin:auto;padding:80px 28px 64px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center; }
+    @media(max-width:1024px) and (min-width:701px) { .hero{gap:40px} .hero-h1{font-size:2.8rem} }
+    @media(max-width:700px) { .hero{grid-template-columns:1fr;gap:40px;padding:48px 20px 40px} }
+    .hero-eyebrow { display:inline-flex;align-items:center;gap:7px;background:var(--sage-pale);border-radius:var(--r-pill);padding:6px 14px;margin-bottom:20px;font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--sage-dark);text-transform:uppercase; }
+    .hero-eyebrow-dot { width:6px;height:6px;border-radius:50%;background:var(--sage); }
+    .hero-h1 { font-family:'Lora',serif;font-size:clamp(2.4rem,5vw,3.8rem);font-weight:700;line-height:1.08;letter-spacing:-.04em;color:var(--text);margin-bottom:20px; }
+    .hero-h1 em { font-style:italic;color:var(--sage); }
+    .hero-p { font-size:1.05rem;color:var(--text-soft);line-height:1.65;margin-bottom:32px;max-width:480px; }
+    .hero-actions { display:flex;gap:12px;flex-wrap:wrap;align-items:center; }
+    .btn-hero { background:var(--sage);color:#fff;border:none;border-radius:var(--r-pill);padding:15px 30px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(74,120,88,.28);transition:all .17s; }
+    .btn-hero:hover { background:var(--sage-dark);transform:translateY(-2px);box-shadow:0 12px 32px rgba(74,120,88,.3); }
+    .btn-ghost { background:transparent;color:var(--text-soft);border:1.5px solid var(--border);border-radius:var(--r-pill);padding:14px 24px;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .15s; }
+    .btn-ghost:hover { border-color:var(--sage-mid);color:var(--sage-dark); }
+    .hero-trust { margin-top:24px;font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:8px; }
+    .hero-trust-dot { width:4px;height:4px;border-radius:50%;background:var(--text-muted); }
+    .hero-visual { background:var(--surface);border:1px solid var(--border);border-radius:24px;box-shadow:var(--shadow-lg);overflow:hidden; }
+    .mockup-bar { background:linear-gradient(135deg,#fffcf7,#f5efe6);border-bottom:1px solid var(--border);padding:16px 20px;display:flex;justify-content:space-between;align-items:center; }
+    .mockup-title { font-family:'Lora',serif;font-weight:700;font-size:1rem; }
+    .mockup-badge { background:var(--sage-pale);border-radius:var(--r-pill);padding:5px 12px;font-size:11px;font-weight:700;color:var(--sage-dark); }
+    .mockup-body { padding:16px 20px;display:flex;flex-direction:column;gap:10px; }
+    .mockup-row { display:flex;align-items:center;gap:10px;background:#fffaf5;border:1px solid var(--border-soft);border-radius:12px;padding:10px 13px; }
+    .mockup-check { width:20px;height:20px;border-radius:6px;background:var(--sage);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;flex-shrink:0; }
+    .mockup-check.empty { background:#fff;border:2px solid var(--border); }
+    .mockup-label { font-size:13px;color:var(--text);flex:1; }
+    .mockup-label.done { color:var(--text-muted);text-decoration:line-through; }
+    .mockup-progress { margin:4px 0 2px;background:var(--sage-pale);height:8px;border-radius:99px;overflow:hidden; }
+    .mockup-fill { height:100%;width:60%;background:linear-gradient(90deg,var(--sage-mid),var(--sage-dark));border-radius:99px; }
+    .mockup-foot { font-size:11px;color:var(--text-muted);font-weight:600; }
+
+    /* === FEATURES STRIP === */
+    .features-strip { border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface);padding:44px 28px; }
+    .features-inner { max-width:1120px;margin:auto; }
+    .features-label { text-align:center;font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--text-muted);text-transform:uppercase;margin-bottom:32px; }
+    .features-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:24px; }
+    @media(max-width:900px) { .features-grid{grid-template-columns:repeat(2,1fr)} }
+    @media(max-width:500px) { .features-grid{grid-template-columns:1fr} }
+    .feature-card { background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:22px;box-shadow:var(--shadow-xs); }
+    .feature-icon { width:40px;height:40px;border-radius:12px;background:var(--sage-pale);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px; }
+    .feature-h { font-family:'Lora',serif;font-size:1rem;font-weight:700;margin-bottom:6px; }
+    .feature-p { font-size:13.5px;color:var(--text-soft);line-height:1.6; }
+
+    /* === PRICING === */
+    .pricing-section { max-width:1120px;margin:auto;padding:72px 28px; }
+    .section-eyebrow { text-align:center;font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--sage);text-transform:uppercase;margin-bottom:12px; }
+    .section-h2 { font-family:'Lora',serif;font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;text-align:center;margin-bottom:10px;letter-spacing:-.03em; }
+    .section-sub { text-align:center;color:var(--text-soft);font-size:.98rem;margin-bottom:44px; }
+    .pricing-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:18px; }
+    @media(max-width:900px) and (min-width:601px) { .pricing-grid{grid-template-columns:repeat(2,1fr)} }
+    @media(max-width:600px) { .pricing-grid{grid-template-columns:1fr;max-width:400px;margin:auto} }
+    .plan-card { background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:28px;box-shadow:var(--shadow-sm);position:relative;transition:transform .2s,box-shadow .2s; }
+    .plan-card:hover { transform:translateY(-3px);box-shadow:var(--shadow-md); }
+    .plan-card.popular { border-color:var(--sage);box-shadow:0 0 0 1px var(--sage),var(--shadow-md); }
+    .popular-badge { position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--sage);color:#fff;border-radius:var(--r-pill);padding:4px 16px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap; }
+    .plan-name { font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--text-muted);text-transform:uppercase;margin-bottom:10px; }
+    .plan-price { font-family:'Lora',serif;font-size:2.4rem;font-weight:700;letter-spacing:-.04em;margin-bottom:4px; }
+    .plan-price span { font-size:1rem;font-weight:500;color:var(--text-soft);letter-spacing:0; }
+    .plan-desc { font-size:13px;color:var(--text-soft);margin-bottom:22px;line-height:1.5; }
+    .plan-features { display:flex;flex-direction:column;gap:9px;margin-bottom:24px; }
+    .plan-feat { display:flex;align-items:flex-start;gap:9px;font-size:13.5px;color:var(--text-soft); }
+    .feat-check { color:var(--sage);font-weight:800;flex-shrink:0;margin-top:1px; }
+    .feat-lock { color:var(--text-muted);flex-shrink:0; }
+    .plan-btn { width:100%;border:none;border-radius:var(--r-pill);padding:13px;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .17s; }
+    .plan-btn-primary { background:var(--sage);color:#fff;box-shadow:0 6px 16px rgba(74,120,88,.22); }
+    .plan-btn-primary:hover { background:var(--sage-dark); }
+    .plan-btn-outline { background:transparent;color:var(--text);border:1.5px solid var(--border); }
+    .plan-btn-outline:hover { border-color:var(--sage-mid);color:var(--sage-dark); }
+    .plan-btn-gold { background:linear-gradient(135deg,var(--gold),#e0a840);color:#fff;box-shadow:0 6px 16px rgba(201,151,58,.25); }
+    .plan-btn-gold:hover { filter:brightness(1.06); }
+
+    /* === TESTIMONIALS === */
+    .proof-section { background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:56px 28px; }
+    .proof-inner { max-width:1120px;margin:auto; }
+    .testimonials { display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px; }
+    @media(max-width:900px) and (min-width:601px) { .testimonials{grid-template-columns:repeat(2,1fr)} }
+    @media(max-width:600px) { .testimonials{grid-template-columns:1fr} }
+    .testimonial { background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:22px;box-shadow:var(--shadow-xs); }
+    .testimonial-quote { font-family:'Lora',serif;font-style:italic;font-size:.97rem;color:var(--text);line-height:1.6;margin-bottom:16px; }
+    .testimonial-author { font-size:12px;font-weight:700;color:var(--text-muted); }
+    .stars { color:var(--gold);font-size:13px;margin-bottom:10px;letter-spacing:1px; }
+
+    /* === FOOTER === */
+    .marketing-footer { max-width:1120px;margin:auto;padding:40px 28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px; }
+    .footer-logo { font-family:'Lora',serif;font-size:.95rem;font-weight:700;color:var(--text-soft); }
+    .footer-legal { font-size:12px;color:var(--text-muted); }
+
+    /* === APP SHELL === */
+    .app-header { background:linear-gradient(160deg,#fffcf7 0%,#f4ede3 100%);border-bottom:1px solid var(--border);padding:22px 24px 18px;position:sticky;top:0;z-index:40; }
+    body.dark-mode .app-header { background:linear-gradient(160deg,#231f1a 0%,#1e1a16 100%); }
+    .app-header-inner { max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap; }
+    .app-brand-row { display:flex;align-items:center;gap:10px;margin-bottom:6px; }
+    .app-logo-mark { width:36px;height:36px;border-radius:11px;background:var(--sage);display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 3px 8px rgba(74,120,88,.22); }
+    .app-brand-name { font-size:10px;font-weight:800;letter-spacing:.16em;color:var(--sage);text-transform:uppercase; }
+    .app-greeting { font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--sage);text-transform:uppercase;margin-bottom:3px; }
+    .app-headline { font-family:'Lora',serif;font-size:clamp(1.5rem,4vw,2.2rem);font-weight:700;letter-spacing:-.03em;margin-bottom:3px; }
+    .app-sub { font-size:14px;color:var(--text-soft);font-style:italic;font-family:'Lora',serif; }
+    .app-header-right { display:flex;flex-direction:column;align-items:flex-end;gap:8px; }
+    .date-chip { background:var(--surface);border:1px solid var(--border);border-radius:var(--r-pill);padding:8px 16px;font-size:12px;font-weight:600;color:var(--text-soft); }
+    .flow-chip { background:var(--sage-pale);border:1px solid #c4dfc9;border-radius:var(--r-pill);padding:7px 14px;font-size:12px;font-weight:700;color:var(--sage-dark);display:flex;align-items:center;gap:7px; }
+    .flow-pip { width:8px;height:8px;border-radius:50%;background:var(--sage);transition:background .3s; }
+    .plan-chip { background:linear-gradient(135deg,var(--gold-pale),#fdf0d0);border:1.5px solid #e8c870;border-radius:var(--r-pill);padding:6px 14px;font-size:11px;font-weight:800;color:var(--gold-dark);display:flex;gap:8px;align-items:center;letter-spacing:.06em; }
+    .member-badge { font-size:11px;color:var(--text-muted);font-weight:600;text-align:right; }
+
+    /* === TABS === */
+    .app-tabs { background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:82px;z-index:35;overflow-x:auto; }
+    .app-tabs-inner { max-width:1200px;margin:auto;display:flex;padding:0 16px;gap:2px; }
+    .app-tab { background:none;border:none;border-bottom:2px solid transparent;padding:14px 16px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:var(--text-soft);cursor:pointer;white-space:nowrap;transition:all .15s; }
+    .app-tab:hover { color:var(--text); }
+    .app-tab.active { color:var(--sage);border-bottom-color:var(--sage); }
+    .tab-lock { margin-left:4px;font-size:10px; }
+
+    /* === APP MAIN === */
+    .app-main { max-width:1200px;margin:auto;padding:24px 20px;display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start; }
+    @media(max-width:900px) { .app-main{grid-template-columns:1fr} }
+
+    /* === CARDS === */
+    .card { background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:24px;box-shadow:var(--shadow-sm); }
+    .card-eye { font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--sage);text-transform:uppercase;margin-bottom:8px; }
+    .card h2 { font-family:'Lora',serif;font-size:1.35rem;font-weight:700;letter-spacing:-.02em;margin-bottom:6px; }
+    .card-sub-txt { font-size:13.5px;color:var(--text-soft);margin-bottom:18px;line-height:1.5; }
+    .span2 { grid-column:1/-1; }
+
+    /* === FORM ELEMENTS === */
+    input, textarea { width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:10px 13px;font-family:'Inter',sans-serif;font-size:14px;color:var(--text);outline:none;transition:border-color .15s;resize:vertical; }
+    input:focus, textarea:focus { border-color:var(--sage-mid); }
+    textarea { min-height:72px;line-height:1.55; }
+    .flabel { font-size:12px;font-weight:700;color:var(--text-soft);display:block;margin-bottom:5px;letter-spacing:.04em; }
+    .grid2 { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+    @media(max-width:600px) { .grid2{grid-template-columns:1fr} }
+    .fspan2 { grid-column:1/-1; }
+
+    /* === BUTTONS === */
+    .btn { border:none;border-radius:var(--r-pill);padding:10px 20px;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s; }
+    .btn-primary { background:var(--sage);color:#fff;box-shadow:0 4px 12px rgba(74,120,88,.2); }
+    .btn-primary:hover { background:var(--sage-dark); }
+    .btn-secondary { background:var(--surface);color:var(--text-soft);border:1.5px solid var(--border); }
+    .btn-secondary:hover { border-color:var(--sage-mid);color:var(--sage-dark); }
+    .btn-gold { background:linear-gradient(135deg,var(--gold),#e0a840);color:#fff;box-shadow:0 4px 12px rgba(201,151,58,.22); }
+    .btn-gold:hover { filter:brightness(1.06); }
+    .btn-sm { padding:7px 14px;font-size:12px; }
+    .actions { display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;align-items:center; }
+    .card-actions { display:flex;gap:8px;flex-wrap:wrap;margin-top:14px; }
+
+    /* === CHECKLIST === */
+    .anchor-block { background:var(--sage-pale);border-radius:var(--r-sm);padding:14px 16px;margin-bottom:16px;border:1.5px solid #c4dfc9; }
+    .anchor-inner { font-family:'Lora',serif;font-size:1rem;font-style:italic;color:var(--sage-dark);outline:none;min-height:28px; }
+    .checklist { display:flex;flex-direction:column;gap:8px;margin-bottom:16px; }
+    .check-row { display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--surface2);border:1px solid var(--border-soft);border-radius:12px;cursor:pointer;transition:all .15s; }
+    .check-row:hover { border-color:var(--sage-pale); }
+    .check-row.done { background:var(--sage-pale);border-color:#c4dfc9; }
+    .check-box { width:22px;height:22px;border-radius:7px;background:var(--surface);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s; }
+    .check-row.done .check-box { background:var(--sage);border-color:var(--sage); }
+    .check-tick { font-size:12px;color:#fff;font-weight:800;opacity:0; }
+    .check-row.done .check-tick { opacity:1; }
+    .check-lbl { font-size:14px;color:var(--text);flex:1;transition:color .15s; }
+    .check-row.done .check-lbl { color:var(--text-muted);text-decoration:line-through; }
+    .prog-wrap { background:var(--sage-pale);height:8px;border-radius:99px;overflow:hidden;margin-bottom:6px; }
+    .prog-bar { height:100%;width:0%;background:linear-gradient(90deg,var(--sage-mid),var(--sage-dark));border-radius:99px;transition:width .4s ease; }
+    .prog-txt { font-size:12px;font-weight:700;color:var(--text-muted); }
+
+    /* === WEEK GRID === */
+    .week-grid { display:grid;grid-template-columns:repeat(7,1fr);gap:12px;margin-top:20px; }
+    @media(max-width:1000px) { .week-grid{grid-template-columns:repeat(4,1fr)} }
+    @media(max-width:600px) { .week-grid{grid-template-columns:repeat(2,1fr)} }
+    .day-card { background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:12px; }
+    .day-lbl { font-size:10px;font-weight:800;letter-spacing:.1em;color:var(--sage);text-transform:uppercase;margin-bottom:8px; }
+    .day-card textarea { min-height:140px;font-size:12.5px;border-radius:8px; }
+    .weekly-section-grid { display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:16px; }
+    @media(max-width:1000px) { .weekly-section-grid{grid-template-columns:repeat(4,1fr)} }
+    @media(max-width:600px) { .weekly-section-grid{grid-template-columns:repeat(2,1fr)} }
+    .weekly-mini-card { background:var(--surface2);border:1px solid var(--border-soft);border-radius:var(--r-sm);padding:10px; }
+    .weekly-mini-card textarea { min-height:110px;font-size:12px;border-radius:6px; }
+
+    /* === GROCERY LIST === */
+    .list-wrap { display:flex;flex-direction:column;gap:7px;margin-top:14px; }
+    .list-item { display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border:1px solid var(--border-soft);border-radius:10px;font-size:14px; }
+    .list-item span { flex:1; }
+    .list-item.crossed span { text-decoration:line-through;color:var(--text-muted); }
+
+    /* === GATE === */
+    .gate { background:var(--surface);border:1.5px dashed var(--border);border-radius:var(--r);padding:48px 32px;text-align:center; }
+    .gate-icon { font-size:40px;margin-bottom:16px; }
+    .gate-h { font-family:'Lora',serif;font-size:1.4rem;font-weight:700;margin-bottom:10px; }
+    .gate-p { font-size:14px;color:var(--text-soft);margin-bottom:20px;max-width:400px;margin-left:auto;margin-right:auto; }
+    .gate-features { display:flex;flex-direction:column;gap:8px;margin-bottom:24px;text-align:left;max-width:320px;margin-left:auto;margin-right:auto; }
+    .gate-feat { display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--text-soft); }
+    .gate-check { color:var(--sage);font-weight:800; }
+
+    /* === MODAL === */
+    .modal-overlay { position:fixed;inset:0;background:rgba(38,32,26,.55);backdrop-filter:blur(6px);z-index:200;display:none;align-items:center;justify-content:center; }
+    .modal-overlay.open { display:flex; }
+    .modal { background:var(--surface);border-radius:28px;padding:32px;max-width:420px;width:90%;box-shadow:var(--shadow-lg);position:relative; }
+    .modal-close { position:absolute;top:16px;right:16px;background:var(--bg);border:1px solid var(--border);border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:14px;color:var(--text-soft);display:flex;align-items:center;justify-content:center; }
+    .modal-h { font-family:'Lora',serif;font-size:1.4rem;font-weight:700;margin-bottom:8px; }
+    .modal-sub { font-size:14px;color:var(--text-soft);margin-bottom:20px;line-height:1.5; }
+    .modal-plans { display:flex;flex-direction:column;gap:10px;margin-bottom:20px; }
+    .modal-plan { background:var(--surface2);border:2px solid var(--border);border-radius:16px;padding:16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:all .15s; }
+    .modal-plan:hover, .modal-plan.selected { border-color:var(--sage);background:var(--sage-pale); }
+    .modal-plan-name { font-size:14px;font-weight:700;color:var(--text);margin-bottom:3px; }
+    .modal-plan-desc { font-size:12px;color:var(--text-soft); }
+    .modal-plan-price { font-family:'Lora',serif;font-size:1.4rem;font-weight:700;color:var(--sage-dark); }
+    .modal-foot { display:flex;gap:10px; }
+
+    /* === TOAST === */
+    .toast { position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:#fff;border-radius:var(--r-pill);padding:10px 22px;font-size:13px;font-weight:700;z-index:300;opacity:0;transition:all .25s;white-space:nowrap;pointer-events:none; }
+    .toast.show { opacity:1;transform:translateX(-50%) translateY(0); }
+
+    /* === ONBOARDING CARD === */
+    .onboarding-card { background:linear-gradient(135deg,var(--sage-pale),#e8f4eb);border:1.5px solid #c4dfc9;border-radius:16px;padding:18px 20px;margin-bottom:20px; }
+    .mini-note { font-size:13px;color:var(--text-soft);line-height:1.55;margin-bottom:8px; }
+    .onboarding-status { font-size:12px;font-weight:700;color:var(--text-muted); }
+    .save-tip { font-size:12px;color:var(--text-muted);margin-top:14px;background:var(--surface2);border-radius:10px;padding:10px 12px;line-height:1.5; }
+
+    /* === DARK TOGGLE + SCROLL TOP === */
+    .dark-toggle-btn { background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-pill);padding:7px 14px;font-size:16px;cursor:pointer;transition:all .15s; }
+    .dark-toggle-btn:hover { border-color:var(--sage); }
+    #scrollTopBtn { position:fixed;bottom:88px;right:18px;width:42px;height:42px;background:var(--sage);color:#fff;border:none;border-radius:50%;font-size:18px;cursor:pointer;box-shadow:var(--shadow-md);display:none;align-items:center;justify-content:center;z-index:90;transition:all .2s; }
+    #scrollTopBtn.visible { display:flex; }
+    #scrollTopBtn:hover { background:var(--sage-dark);transform:translateY(-2px); }
+
+    /* === HABIT STREAK === */
+    .streak-grid { display:flex;gap:5px;flex-wrap:wrap;margin:10px 0; }
+    .streak-dot { width:22px;height:22px;border-radius:6px;background:var(--border-soft);display:flex;align-items:center;justify-content:center;font-size:11px;cursor:pointer;transition:all .15s;border:1.5px solid var(--border); }
+    .streak-dot.done { background:var(--sage);border-color:var(--sage); }
+    .streak-dot.done::after { content:'v';color:#fff;font-weight:800;font-size:11px; }
+    .streak-count { font-family:'Lora',serif;font-size:2rem;font-weight:700;color:var(--sage-dark);line-height:1; }
+    .streak-label { font-size:12px;color:var(--text-soft);margin-top:2px; }
+
+    /* === BLOOM INSIGHT === */
+    .bloom-insight { background:linear-gradient(135deg,var(--sage-pale) 0%,#e8f4eb 100%);border:1.5px solid #c4dfc9;border-radius:var(--r);padding:16px 18px;margin-bottom:16px; }
+    body.dark-mode .bloom-insight { background:linear-gradient(135deg,#1e2b20 0%,#243028 100%); }
+    .insight-label { font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--sage);text-transform:uppercase;margin-bottom:6px; }
+    .insight-text { font-size:14px;color:var(--text-soft);line-height:1.6; }
+
+    /* === TODAY'S WIN === */
+    .win-field { background:linear-gradient(135deg,#fffdf5 0%,var(--gold-pale) 100%);border:1.5px solid #f0ddb0;border-radius:var(--r);padding:16px 18px;margin-bottom:16px; }
+    body.dark-mode .win-field { background:linear-gradient(135deg,#2a2416 0%,#2a2010 100%);border-color:#4a3a1a; }
+    .win-label { font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px; }
+    .win-field textarea { border-color:#f0ddb0;background:rgba(255,255,255,.5);min-height:56px;font-size:14px; }
+
+    /* === HOMEMAKING ACCORDION === */
+    .accordion-section { border:1px solid var(--border);border-radius:var(--r-sm);overflow:hidden;margin-bottom:10px; }
+    .accordion-header { display:flex;justify-content:space-between;align-items:center;padding:14px 18px;background:var(--surface2);cursor:pointer;font-weight:700;font-size:14px;transition:background .15s; }
+    .accordion-header:hover { background:var(--sage-pale); }
+    .accordion-header .acc-arrow { font-size:12px;color:var(--text-muted);transition:transform .2s; }
+    .accordion-header.open .acc-arrow { transform:rotate(180deg); }
+    .accordion-body { display:none;padding:16px 18px;background:var(--surface); }
+    .accordion-body.open { display:block; }
+    .acc-progress { background:var(--border);height:6px;border-radius:99px;margin-bottom:12px;overflow:hidden; }
+    .acc-progress-fill { height:100%;background:var(--sage);border-radius:99px;transition:width .3s; }
+    .acc-tasks { display:flex;flex-direction:column;gap:7px;margin-bottom:12px; }
+    .acc-task { display:flex;align-items:center;gap:10px;font-size:13.5px;cursor:pointer;padding:6px 8px;border-radius:8px;transition:background .1s; }
+    .acc-task:hover { background:var(--surface2); }
+    .acc-task input[type="checkbox"] { accent-color:var(--sage);width:16px;height:16px;flex-shrink:0; }
+    .acc-task.done span { text-decoration:line-through;color:var(--text-muted); }
+    .acc-custom-row { display:flex;gap:8px;margin-top:8px; }
+    .acc-custom-row input { flex:1; }
+
+    /* === FAMILY HUB === */
+    .child-cards { display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:16px; }
+    .child-card { background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r);padding:20px; }
+    .child-avatar { font-size:36px;margin-bottom:8px; }
+    .child-name-row { display:flex;align-items:center;gap:8px;margin-bottom:12px; }
+    .child-name-input { font-family:'Lora',serif;font-size:1.1rem;font-weight:700;background:none;border:none;border-bottom:1.5px solid var(--border);border-radius:0;padding:4px 2px;width:100%; }
+    .child-name-input:focus { border-bottom-color:var(--sage);outline:none; }
+
+    /* === HELP ACCORDION === */
+    .help-item { border-bottom:1px solid var(--border-soft);padding:0; }
+    .help-q { display:flex;justify-content:space-between;align-items:center;padding:14px 4px;cursor:pointer;font-weight:600;font-size:14px;color:var(--text); }
+    .help-q .hq-arrow { font-size:12px;color:var(--text-muted);transition:transform .2s; }
+    .help-q.open .hq-arrow { transform:rotate(180deg); }
+    .help-a { display:none;padding:0 4px 14px;font-size:13.5px;color:var(--text-soft);line-height:1.65; }
+    .help-a.open { display:block; }
+
+    /* === SUCCESS PAGE === */
+    #successPage { min-height:100vh;background:var(--bg);display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:40px 20px; }
+    #successPage.visible { display:flex; }
+    .success-icon { font-size:64px;margin-bottom:16px;animation:successPop .5s ease; }
+    @keyframes successPop { 0%{transform:scale(0)} 70%{transform:scale(1.15)} 100%{transform:scale(1)} }
+    .success-h { font-family:'Lora',serif;font-size:2rem;font-weight:700;color:var(--sage-dark);margin-bottom:10px; }
+    .success-sub { font-size:15px;color:var(--text-soft);max-width:420px;line-height:1.6;margin-bottom:24px; }
+    .success-name-row { display:flex;gap:10px;max-width:340px;width:100%;margin-bottom:20px; }
+    .success-name-row input { flex:1; }
+    .confetti-burst { position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:500;overflow:hidden; }
+    .confetti-piece { position:absolute;width:10px;height:10px;top:-10px;animation:confettiFall linear forwards; }
+    @keyframes confettiFall { to{transform:translateY(110vh) rotate(720deg);opacity:0} }
+
+    /* === WEEKLY ROLLOVER MODAL === */
+    #rolloverModal { position:fixed;inset:0;background:rgba(38,32,26,.6);z-index:250;display:none;align-items:center;justify-content:center; }
+    #rolloverModal.open { display:flex; }
+    .rollover-box { background:var(--surface);border-radius:28px;padding:32px;max-width:480px;width:92%;box-shadow:var(--shadow-lg); }
+    .rollover-h { font-family:'Lora',serif;font-size:1.5rem;font-weight:700;margin-bottom:8px; }
+    .rollover-sub { font-size:14px;color:var(--text-soft);margin-bottom:20px; }
+    .rollover-items { display:flex;flex-direction:column;gap:8px;margin-bottom:20px;max-height:200px;overflow-y:auto; }
+    .rollover-item { display:flex;align-items:center;gap:10px;font-size:13.5px;padding:8px 10px;background:var(--surface2);border-radius:10px;border:1px solid var(--border-soft); }
+    .rollover-item input[type="checkbox"] { accent-color:var(--sage); }
+
+    /* === SKIP BTN === */
+    .skip-btn { background:none;border:none;font-size:13px;color:var(--text-muted);cursor:pointer;padding:6px 12px;border-radius:var(--r-pill);text-decoration:underline;transition:color .15s; }
+    .skip-btn:hover { color:var(--text-soft); }
+
+    /* === PRINT === */
+    @media print {
+      body * { visibility:hidden; }
+      #app, #app * { visibility:visible; }
+      .app-header, .app-tabs, #scrollTopBtn, .dark-toggle-btn, .bloom-insight, .win-field, button, .card-actions { display:none !important; }
+      #app { position:static;top:0;overflow:visible; }
+      .tab-panel { display:block !important;break-inside:avoid; }
+      .tab-panel:not(#tab-week) { display:none !important; }
+      #tab-week, #view-week { display:block !important; }
+      .weekly-section-grid { display:grid !important;overflow:visible !important; }
+      .day-card, .weekly-mini-card { break-inside:avoid;border:1px solid #ccc !important; }
+      .day-grid { display:grid !important; }
+      @page { margin:1.5cm;size:landscape; }
+    }
+
+    @keyframes slideIn { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+    /* === FOUNDER LOGIN + ADMIN === */
+    #founderLogin { min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 18px;background:radial-gradient(circle at top left,#e4ede7 0,#f6f2eb 38%,#fffcf7 100%); }
+    body.dark-mode #founderLogin { background:radial-gradient(circle at top left,#243028 0,#1a1612 42%,#231f1a 100%); }
+    .founder-login-card { width:min(520px,100%);background:var(--surface);border:1px solid var(--border);border-radius:28px;padding:32px;box-shadow:var(--shadow-lg); }
+    .founder-lock { width:54px;height:54px;border-radius:18px;background:var(--sage);display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:18px;box-shadow:0 8px 20px rgba(74,120,88,.25); }
+    .founder-kicker { font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--sage);text-transform:uppercase;margin-bottom:8px; }
+    .founder-title { font-family:'Lora',serif;font-size:2rem;font-weight:700;letter-spacing:-.03em;margin-bottom:8px; }
+    .founder-copy { color:var(--text-soft);font-size:14px;line-height:1.65;margin-bottom:20px; }
+    .founder-login-card .btn { width:100%;justify-content:center;margin-top:12px;padding:13px 20px;font-size:14px; }
+    .founder-login-card small { display:block;margin-top:14px;color:var(--text-muted);line-height:1.5;font-size:12px; }
+    .founder-grid { display:grid;grid-template-columns:repeat(2,1fr);gap:16px; }
+    @media(max-width:700px){ .founder-grid{grid-template-columns:1fr} }
+    .admin-pill-row { display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px; }
+    .admin-pill { background:var(--sage-pale);border:1px solid #c4dfc9;border-radius:var(--r-pill);padding:7px 12px;font-size:12px;font-weight:700;color:var(--sage-dark); }
+    .timeline-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px; }
+    @media(max-width:800px){ .timeline-grid{grid-template-columns:1fr} }
+    .timeline-card { background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r);padding:18px; }
+    .timeline-card textarea { min-height:160px; }
+    .memory-list { display:flex;flex-direction:column;gap:8px;margin-top:12px; }
+    .memory-item { display:flex;gap:8px;align-items:flex-start;background:var(--surface2);border:1px solid var(--border-soft);border-radius:12px;padding:10px 12px; }
+    .memory-item-text { flex:1;font-size:13.5px;line-height:1.5;color:var(--text-soft);white-space:pre-wrap; }
+    .memory-item button { background:none;border:none;color:var(--text-muted);cursor:pointer;font-weight:800;padding:2px 6px; }
+    .admin-note-box { background:linear-gradient(135deg,var(--sage-pale),#e8f4eb);border:1.5px solid #c4dfc9;border-radius:var(--r);padding:16px 18px;line-height:1.55;font-size:13.5px;color:var(--text-soft); }
+
+  </style>
+</head>
+<body>
+
+<!-- FOUNDER LOGIN -->
+<div id="founderLogin" style="display:none;">
+  <div class="founder-login-card">
+    <div class="founder-lock">🌿</div>
+    <div class="founder-kicker">Founder Edition</div>
+    <div class="founder-title">Welcome back, Jullisa.</div>
+    <p class="founder-copy">Sign in with your Bloom account. Your onboarding, week, memory, timeline, meals, homeschool, and Founder controls will sync across your laptop, iPad, and iPhone.</p>
+    <label class="flabel">Email</label>
+    <input type="email" id="authEmail" value="jullisacampbell@gmail.com" placeholder="you@example.com" autocomplete="email"/>
+    <label class="flabel" style="margin-top:12px;">Password</label>
+    <input type="password" id="authPassword" placeholder="Your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')founderLogin()"/>
+    <button class="btn btn-primary" onclick="founderLogin()">Sign in & Sync Bloom</button>
+    <button class="btn btn-secondary" onclick="founderSignUp()">Create account</button>
+    <small id="cloudStatus">Cloud sync is powered by Supabase. Your data also keeps a local backup in this browser.</small>
+  </div>
+</div>
+
+
+<!-- LANDING PAGE -->
+<div id="landing">
+
+  <!-- NAV -->
+  <nav class="marketing-nav">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#">
+        <div class="nav-logo-mark">🌿</div>
+        <span class="nav-logo-name">Bloom OS</span>
+      </a>
+      <div class="nav-links">
+        <button class="nav-link" onclick="scrollToSection('features')">Features</button>
+        <button class="nav-link" onclick="scrollToSection('pricing')">Pricing</button>
+        <button class="nav-link dark-toggle-btn" onclick="toggleDarkMode()" id="darkToggleNav" title="Toggle dark mode">🌙</button>
+        <button class="nav-cta" onclick="enterApp('free')">Try free</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow"><div class="hero-eyebrow-dot"></div>Family Command Center for Homeschool Moms</div>
+      <h1 class="hero-h1">Your week,<br><em>handled.</em></h1>
+      <p class="hero-p">Stop being the invisible project manager for your entire family. Bloom OS plans your meals, homeschool, weekly schedule, and business goals — all in one calm dashboard built for moms who do it all.</p>
+      <div class="hero-actions">
+        <button class="btn-hero" onclick="enterApp('free')">Start free — no card needed</button>
+        <button class="btn-ghost" onclick="scrollToSection('pricing')">See plans</button>
+      </div>
+      <div class="hero-trust">
+        <span>Free forever tier</span>
+        <div class="hero-trust-dot"></div>
+        <span>No credit card to start</span>
+        <div class="hero-trust-dot"></div>
+        <span>Cancel anytime</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="mockup-bar">
+        <span class="mockup-title">🌿 Bloom OS</span>
+        <span class="mockup-badge">Pro</span>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-row">
+          <div class="mockup-check">v</div>
+          <span class="mockup-label done">Morning routine + wake goal</span>
+        </div>
+        <div class="mockup-row">
+          <div class="mockup-check">v</div>
+          <span class="mockup-label done">Bible time + circle time</span>
+        </div>
+        <div class="mockup-row">
+          <div class="mockup-check empty"></div>
+          <span class="mockup-label">CEO Hour — content + revenue task</span>
+        </div>
+        <div class="mockup-row">
+          <div class="mockup-check empty"></div>
+          <span class="mockup-label">Dinner prep + kitchen reset</span>
+        </div>
+        <div class="mockup-progress"><div class="mockup-fill"></div></div>
+        <div class="mockup-foot">Weekly goals: 2 of 4 complete</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-strip" id="features">
+    <div class="features-inner">
+      <div class="features-label">Everything your family week needs in one place</div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📅</div>
+          <div class="feature-h">Weekly Build Engine</div>
+          <p class="feature-p">Fill in your priorities once and Bloom auto-generates your entire week — meals, school, CEO Hour, and home reset included.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🥗</div>
+          <div class="feature-h">Meal Planning</div>
+          <p class="feature-p">Breakfast, lunch, and dinner planned for every day. Connected grocery list so you never forget what you actually need.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📚</div>
+          <div class="feature-h">Homeschool Hub</div>
+          <p class="feature-p">Bible time, phonics, math, and sensory play — all mapped out. Per-child lesson plans for families with multiple learners.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💰</div>
+          <div class="feature-h">CEO Hour Tracker</div>
+          <p class="feature-p">Protect your revenue-generating time every day. Track your income goals, content tasks, and business wins in one place.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <div class="feature-h">Goal + Streak Tracker</div>
+          <p class="feature-p">30-day habit grids for your wake time, fitness, Bible reading, and CEO Hour. See your streaks grow and stay consistent.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏠</div>
+          <div class="feature-h">Homemaking Hub</div>
+          <p class="feature-p">Daily, bi-weekly, monthly, quarterly, and yearly home tasks — with progress bars, check-off, and custom task input.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing-section" id="pricing">
+    <div class="section-eyebrow">Simple pricing</div>
+    <h2 class="section-h2">Pick what fits your season</h2>
+    <p class="section-sub">Start free. Upgrade when you're ready. Cancel anytime.</p>
+    <div class="pricing-grid">
+
+      <!-- FREE -->
+      <div class="plan-card">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">$0<span>/mo</span></div>
+        <p class="plan-desc">A calm start. See if Bloom fits before committing.</p>
+        <div class="plan-features">
+          <div class="plan-feat"><span class="feat-check">v</span> Today view + priorities</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Basic weekly overview</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Grocery list</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Goals tab</div>
+          <div class="plan-feat"><span class="feat-lock">-</span> Weekly Build Engine</div>
+          <div class="plan-feat"><span class="feat-lock">-</span> Meals planner</div>
+          <div class="plan-feat"><span class="feat-lock">-</span> Homeschool Hub</div>
+          <div class="plan-feat"><span class="feat-lock">-</span> CEO Hour tracker</div>
+        </div>
+        <button class="plan-btn plan-btn-outline" onclick="enterApp('free')">Start free</button>
+      </div>
+
+      <!-- PRO -->
+      <div class="plan-card popular">
+        <div class="popular-badge">Most Popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">$12<span>/mo</span></div>
+        <p class="plan-desc">The full dashboard. Your whole life in one calm place.</p>
+        <div class="plan-features">
+          <div class="plan-feat"><span class="feat-check">v</span> Everything in Free</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Weekly Build Engine</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Full meal planner</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Homeschool Hub</div>
+          <div class="plan-feat"><span class="feat-check">v</span> CEO Hour tracker</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Homemaking Hub</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Habit streak tracker</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Daily Bloom Insight</div>
+        </div>
+        <button class="plan-btn plan-btn-primary" onclick="goToStripe('pro-trial')">Start 7-day free trial</button>
+      </div>
+
+      <!-- FAMILY -->
+      <div class="plan-card">
+        <div class="plan-name">Family</div>
+        <div class="plan-price">$19<span>/mo</span></div>
+        <p class="plan-desc">Everything in Pro, built for your whole crew.</p>
+        <div class="plan-features">
+          <div class="plan-feat"><span class="feat-check">v</span> Everything in Pro</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Child profiles per kid</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Individual homeschool plans</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Reading logs per child</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Swim progress tracking</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Chore charts</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Family calendar</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Shared grocery lists</div>
+          <div class="plan-feat"><span class="feat-check">v</span> Early access to new features</div>
+        </div>
+        <button class="plan-btn plan-btn-gold" onclick="goToStripe('family')">Get Family Plan</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="proof-section">
+    <div class="proof-inner">
+      <div class="section-eyebrow">Early love</div>
+      <h2 class="section-h2">Moms who found their calm</h2>
+      <div class="testimonials">
+        <div class="testimonial">
+          <div class="stars">* * * * *</div>
+          <div class="testimonial-quote">"I used to have 6 different apps and still forgot things. Bloom OS is the first tool that actually matches how my brain works as a homeschool mom."</div>
+          <div class="testimonial-author">Beta tester, homeschool mom of 2</div>
+        </div>
+        <div class="testimonial">
+          <div class="stars">* * * * *</div>
+          <div class="testimonial-quote">"The Weekly Build Engine is everything. I fill it in Sunday night and my whole week feels possible instead of overwhelming."</div>
+          <div class="testimonial-author">Early user, mompreneur</div>
+        </div>
+        <div class="testimonial">
+          <div class="stars">* * * * *</div>
+          <div class="testimonial-quote">"Finally something that gets that I'm running a home AND a business AND homeschooling. Bloom sees all of it."</div>
+          <div class="testimonial-author">Early user, work-from-home mom</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="marketing-footer">
+      <span class="footer-logo">🌿 Bloom OS</span>
+      <span class="footer-legal">Built for moms who do it all. &copy; 2025 Bloom OS. All rights reserved.</span>
+    </div>
+  </footer>
+
+</div><!-- /landing -->
+
+<!-- SUCCESS PAGE -->
+<div id="successPage">
+  <div class="confetti-burst" id="confettiBurst"></div>
+  <div class="success-icon">🌿</div>
+  <div class="success-h" id="successHeadline">Welcome to Bloom OS Pro!</div>
+  <p class="success-sub">Your account is active and everything is unlocked — your week, meals, homeschool, CEO Hour, and goals are all ready for you.</p>
+  <p style="font-size:13px;font-weight:700;color:var(--text-soft);margin-bottom:10px;">What should we call you?</p>
+  <div class="success-name-row">
+    <input type="text" id="successNameInput" placeholder="Your first name" maxlength="40"/>
+    <button class="btn btn-primary" onclick="saveSuccessName()">Save</button>
+  </div>
+  <div style="background:var(--sage-pale);border:1.5px solid #c4dfc9;border-radius:14px;padding:12px 22px;margin-bottom:24px;font-size:13px;font-weight:700;color:var(--sage-dark);">
+    Member since badge: <span id="successMemberBadge"></span>
+  </div>
+  <button class="btn btn-primary" style="font-size:15px;padding:14px 32px;" onclick="startFirstWeek()">Start my first week &rarr;</button>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="app-header-inner">
+      <div>
+        <div class="app-brand-row">
+          <div class="app-logo-mark">🌿</div>
+          <span class="app-brand-name">Bloom OS</span>
+          <div id="planChip" class="plan-chip">
+            <span id="planLabel">Free</span>
+            <span id="upgradeLink" style="color:var(--sage);cursor:pointer;font-size:11px;" onclick="openUpgrade()">Upgrade</span>
+          </div>
+        </div>
+        <div class="app-greeting" id="appGreeting">Good morning</div>
+        <div class="app-headline" id="appHeadline">Your week is handled.</div>
+        <div class="app-sub" id="appSub">Your calm command center</div>
+        <div class="member-badge" id="memberBadgeRow" style="text-align:left;margin-top:6px;display:none;"></div>
+      </div>
+      <div class="app-header-right">
+        <div class="date-chip" id="appDate"></div>
+        <div class="flow-chip"><div class="flow-pip" id="flowPip"></div><span id="flowLabel">In flow</span></div>
+        <button class="dark-toggle-btn" onclick="toggleDarkMode()" id="darkToggleApp" title="Toggle dark mode">🌙</button>
+        <button class="btn btn-sm btn-secondary" onclick="printWeek()" title="Print weekly plan">🖨 Print</button>
+        <button class="btn btn-sm btn-secondary" onclick="founderSignOut()" title="Founder sign out">Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <div class="app-tabs">
+    <div class="app-tabs-inner">
+      <button class="app-tab active" id="tab-today-btn" onclick="showTab('today',this)">Today</button>
+      <button class="app-tab" id="tab-week-btn" onclick="showTabGated('week',this,'pro')">My Week</button>
+      <button class="app-tab" id="tab-meals-btn" onclick="showTabGated('meals',this,'pro')">Meals</button>
+      <button class="app-tab" id="tab-homeschool-btn" onclick="showTabGated('homeschool',this,'pro')">Homeschool</button>
+      <button class="app-tab" id="tab-ceo-btn" onclick="showTabGated('ceo',this,'pro')">CEO Hour</button>
+      <button class="app-tab" id="tab-goals-btn" onclick="showTab('goals',this)">Goals</button>
+      <button class="app-tab" id="tab-homemaking-btn" onclick="showTabGated('homemaking',this,'pro')">Homemaking</button>
+      <button class="app-tab" id="tab-family-btn" onclick="showTabGated('family',this,'family')">Family Hub</button>
+      <button class="app-tab" id="tab-admin-btn" onclick="showTab('admin',this)">Founder Admin</button>
+      <button class="app-tab" id="tab-help-btn" onclick="showTab('help',this)">Help</button>
+    </div>
+  </div>
+
+  <!-- TODAY TAB -->
+  <div class="app-main" id="view-today">
+
+    <div class="card span2">
+      <div class="bloom-insight" id="bloomInsight">
+        <div class="insight-label">Daily Bloom Insight</div>
+        <div class="insight-text" id="insightText">Loading your personalized insight...</div>
+      </div>
+      <div class="win-field">
+        <div class="win-label">🏆 Today's Win</div>
+        <textarea id="todayWin" placeholder="What's one thing you want to celebrate or complete today?"></textarea>
+      </div>
+    </div>
+
+    <div class="card span2">
+      <div class="card-eye">Smart Today</div>
+      <h2>Your day at a glance</h2>
+      <p class="card-sub-txt">A personalized view built from your onboarding and weekly plan.</p>
+      <div id="smartTodayPanel" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div style="background:var(--surface2);border:1px solid var(--border-soft);border-radius:14px;padding:14px;">
+          <div class="card-eye" style="margin-bottom:6px;">Homeschool Today</div>
+          <div id="smartSchool" style="font-size:13.5px;color:var(--text-soft);line-height:1.6;">Fill in your onboarding profile to see a personalized homeschool view here.</div>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border-soft);border-radius:14px;padding:14px;">
+          <div class="card-eye" style="margin-bottom:6px;">Meals Today</div>
+          <div id="smartMeals" style="font-size:13.5px;color:var(--text-soft);line-height:1.6;">Fill in your onboarding profile to see today's meals here.</div>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border-soft);border-radius:14px;padding:14px;">
+          <div class="card-eye" style="margin-bottom:6px;">CEO Hour</div>
+          <div id="smartCeo" style="font-size:13.5px;color:var(--text-soft);line-height:1.6;">Add your revenue task to see your CEO focus here.</div>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border-soft);border-radius:14px;padding:14px;">
+          <div class="card-eye" style="margin-bottom:6px;">Home + Garden</div>
+          <div id="smartHome" style="font-size:13.5px;color:var(--text-soft);line-height:1.6;">Fill in your home rhythm to see today's home tasks here.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-eye">Today</div>
+      <h2>Priorities</h2>
+      <p class="card-sub-txt">What are your top 3 things today?</p>
+      <div class="checklist" id="todayChecklist">
+        <div class="check-row" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">v</span></div><div class="check-lbl" contenteditable="true">Click to edit your first priority</div></div>
+        <div class="check-row" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">v</span></div><div class="check-lbl" contenteditable="true">Second priority</div></div>
+        <div class="check-row" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">v</span></div><div class="check-lbl" contenteditable="true">Third priority</div></div>
+      </div>
+      <div class="prog-wrap"><div class="prog-bar" id="todayProg"></div></div>
+      <div class="prog-txt" id="todayProgTxt">0 of 3 done</div>
+    </div>
+
+    <div class="card">
+      <div class="card-eye">Today's Meals</div>
+      <h2>What's on the table</h2>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+        <div><label class="flabel">Breakfast</label><input type="text" id="today_breakfast" placeholder="e.g. Smoothies + muffins"/></div>
+        <div><label class="flabel">Lunch</label><input type="text" id="today_lunch" placeholder="e.g. Leftovers / snack plates"/></div>
+        <div><label class="flabel">Dinner</label><input type="text" id="today_dinner" placeholder="e.g. Sheet pan chicken + rice"/></div>
+      </div>
+    </div>
+
+  </div><!-- /today -->
+
+  <!-- WEEK TAB -->
+  <div class="app-main" id="view-week" style="display:none">
+    <section class="card span2">
+      <div class="card-eye">Weekly Build Engine</div>
+      <h2>Build My Week</h2>
+      <p class="card-sub-txt">Add what's already happening — Bloom fills in the rest.</p>
+      <div class="onboarding-card">
+        <div class="card-eye">Personalization Profile</div>
+        <h2 style="font-size:1.05rem;margin-bottom:4px;">Make Bloom smarter before you build</h2>
+        <p class="mini-note">Your profile teaches Bloom your family rhythm, homeschool needs, meals, business focus, and energy windows.</p>
+        <p class="onboarding-status" id="onboardingStatus">Profile not yet set up</p>
+        <div class="grid2" style="margin-top:14px;">
+          <div><label class="flabel">Family rhythm</label><textarea id="onboardRhythm" placeholder="When do kids wake? Partner schedule? Best CEO windows?"></textarea></div>
+          <div><label class="flabel">Kids + homeschool needs</label><textarea id="onboardKids" placeholder="Ages, subjects, curriculum, any special needs?"></textarea></div>
+          <div><label class="flabel">Meals + grocery style</label><textarea id="onboardMeals" placeholder="Budget, allergies, meal kit? Quick or batch cook?"></textarea></div>
+          <div><label class="flabel">Business focus</label><textarea id="onboardBusiness" placeholder="What do you sell or create? Income goal?"></textarea></div>
+          <div><label class="flabel">Home rhythm</label><textarea id="onboardHome" placeholder="Laundry days, errands, cleaning rhythm?"></textarea></div>
+          <div><label class="flabel">Energy windows</label><textarea id="onboardEnergy" placeholder="When are you sharpest? When do you crash?"></textarea></div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" onclick="saveOnboardingAndBuild()">Save profile + build week</button>
+          <button class="btn btn-secondary" onclick="fillSampleDefaults()">Fill sample defaults</button>
+          <button class="skip-btn" onclick="showTab('today', document.getElementById('tab-today-btn'))">Skip onboarding</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:6px;">
+        <label class="flabel" style="align-self:center;">Week events / appointments</label>
+        <textarea id="events" placeholder="Doctor appt Tue, swim Wed, church Sun..." style="min-height:56px;max-height:100px;flex:1;min-width:200px;"></textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;">
+        <div><label class="flabel">Top weekly priorities</label><textarea id="priorities" placeholder="Launch product page, deep clean, vet appt..." style="min-height:72px;"></textarea></div>
+        <div>
+          <label class="flabel">Revenue task this week</label>
+          <input type="text" id="revenueTask" placeholder="e.g. Finish sales page, post Reels, send emails"/>
+          <label class="flabel" style="margin-top:10px;">Done by</label>
+          <input type="text" id="doneBy" placeholder="e.g. After kids bedtime"/>
+        </div>
+      </div>
+      <div class="card-actions" style="margin-top:16px;">
+        <button class="btn btn-primary" id="buildBtn" onclick="buildWeekWithLoader()">Build My Week - Auto Fill All</button>
+        <button class="btn btn-secondary" onclick="clearWeek()">Clear week</button>
+        <button class="btn btn-secondary" onclick="printWeek()">Print plan</button>
+      </div>
+    </section>
+
+    <section class="card span2">
+      <div class="card-eye">Weekly Plan</div>
+      <h2>This Week</h2>
+      <div class="week-grid" id="weekGrid"></div>
+    </section>
+  </div><!-- /week -->
+
+  <!-- MEALS TAB -->
+  <div class="app-main" id="view-meals" style="display:none">
+    <section class="card span2">
+      <div class="card-eye">Meals Planner</div>
+      <h2>Weekly Meals</h2>
+      <p class="card-sub-txt">Plan breakfast, lunch, and dinner for your whole family.</p>
+      <div class="grid2">
+        <div><label class="flabel">Default breakfast</label><input type="text" id="breakfast" placeholder="e.g. Smoothies + muffins"/></div>
+        <div><label class="flabel">Default lunch</label><input type="text" id="lunch" placeholder="e.g. Leftovers / snack plates"/></div>
+        <div class="fspan2"><label class="flabel">Default dinner</label><input type="text" id="dinner" placeholder="e.g. Sheet pan chicken + rice + veggies"/></div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="generateMealsWeek()">Generate meal plan</button>
+        <button class="btn btn-secondary" onclick="clearSection('meal')">Clear meals</button>
+      </div>
+    </section>
+    <section class="card span2">
+      <div class="card-eye">Meal Schedule</div>
+      <h2>Day by Day</h2>
+      <div class="weekly-section-grid" id="mealsGrid"></div>
+    </section>
+    <section class="card span2">
+      <div class="card-eye">Grocery List</div>
+      <h2>Shopping This Week</h2>
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <input type="text" id="groceryInput" placeholder="Add item..." onkeydown="if(event.key==='Enter')addGrocery()"/>
+        <button class="btn btn-primary btn-sm" onclick="addGrocery()">Add</button>
+      </div>
+      <div class="list-wrap" id="groceryList"></div>
+      <div class="card-actions"><button class="btn btn-secondary btn-sm" onclick="clearGrocery()">Clear list</button></div>
+    </section>
+  </div><!-- /meals -->
+
+  <!-- HOMESCHOOL TAB -->
+  <div class="app-main" id="view-homeschool" style="display:none">
+    <section class="card span2">
+      <div class="card-eye">Homeschool Hub</div>
+      <h2>Weekly Homeschool Plan</h2>
+      <p class="card-sub-txt">Plan your week of learning — Bible, reading, math, and sensory.</p>
+      <div class="grid2">
+        <div><label class="flabel">Bible + circle time</label><input type="text" id="bible" placeholder="e.g. Tiny Truths + calendar"/></div>
+        <div><label class="flabel">Reading / phonics</label><input type="text" id="reading" placeholder="e.g. Hooked on Phonics + read-aloud"/></div>
+        <div><label class="flabel">Math / writing</label><input type="text" id="mathWriting" placeholder="e.g. Flashcards + wipeable pages"/></div>
+        <div><label class="flabel">Sensory / outdoor</label><input type="text" id="sensory" placeholder="e.g. Pool, water table, kinetic sand"/></div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="generateHomeschoolWeek()">Generate homeschool week</button>
+        <button class="btn btn-secondary" onclick="clearSection('school')">Clear</button>
+      </div>
+    </section>
+    <section class="card span2">
+      <div class="card-eye">Weekly Lessons</div>
+      <h2>Day by Day</h2>
+      <div class="weekly-section-grid" id="schoolGrid"></div>
+    </section>
+  </div><!-- /homeschool -->
+
+  <!-- CEO HOUR TAB -->
+  <div class="app-main" id="view-ceo" style="display:none">
+    <section class="card span2">
+      <div class="card-eye">CEO Hour</div>
+      <h2>Business + Revenue Focus</h2>
+      <p class="card-sub-txt">Protect your revenue time every day. Track income goals and content tasks.</p>
+      <div class="grid2">
+        <div><label class="flabel">Monthly income goal</label><input type="text" id="incomeGoal" placeholder="e.g. $3,000/month"/></div>
+        <div><label class="flabel">Primary revenue task</label><input type="text" id="ceoRevenue" placeholder="e.g. Finish sales page, post Reels"/></div>
+        <div><label class="flabel">Done-by window</label><input type="text" id="ceoDoneBy" placeholder="e.g. After kids bedtime 8–10 PM"/></div>
+        <div><label class="flabel">Content focus</label><input type="text" id="ceoContent" placeholder="e.g. 3 Reels, email newsletter, blog post"/></div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="generateCeoWeek()">Generate CEO week</button>
+        <button class="btn btn-secondary" onclick="clearSection('ceo')">Clear</button>
+      </div>
+    </section>
+    <section class="card span2">
+      <div class="card-eye">Weekly CEO Plan</div>
+      <h2>Day by Day</h2>
+      <div class="weekly-section-grid" id="ceoGrid"></div>
+    </section>
+    <section class="card">
+      <div class="card-eye">Weekly Wins</div>
+      <h2>CEO Checklist</h2>
+      <div class="checklist" id="ceoChecklist">
+        <div class="check-row" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">v</span></div><div class="check-lbl" contenteditable="true">Post 3 pieces of content</div></div>
+        <div class="check-row" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">v</span></div><div class="check-lbl" contenteditable="true">Send weekly email</div></div>
+        <div class="check-row" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">v</span></div><div class="check-lbl" contenteditable="true">Review income + expenses</div></div>
+        <div class="check-row" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">v</span></div><div class="check-lbl" contenteditable="true">Work on one product or offer</div></div>
+      </div>
+    </section>
+    <section class="card">
+      <div class="card-eye">Monthly Tracker</div>
+      <h2>Income Progress</h2>
+      <div style="margin-top:12px;">
+        <label class="flabel">Amount earned this month</label>
+        <input type="text" id="incomeEarned" placeholder="e.g. $1,200" style="margin-bottom:10px;"/>
+        <label class="flabel">Notes</label>
+        <textarea id="incomeNotes" placeholder="What worked? What to repeat?"></textarea>
+      </div>
+    </section>
+  </div><!-- /ceo -->
+
+  <!-- GOALS TAB -->
+  <div class="app-main" id="view-goals" style="display:none">
+    <section class="card span2">
+      <div class="card-eye">Goal Tracker</div>
+      <h2>Your Weekly Goals</h2>
+      <div class="grid2">
+        <div><label class="flabel">Wake goal</label><input type="text" id="wakeGoal" placeholder="e.g. 5:00 AM"/></div>
+        <div><label class="flabel">Fitness goal</label><input type="text" id="fitnessGoal" placeholder="e.g. 30 min walk daily"/></div>
+        <div><label class="flabel">Bible / devotion</label><input type="text" id="bibleGoal" placeholder="e.g. 2 chapters daily"/></div>
+        <div><label class="flabel">CEO Hour goal</label><input type="text" id="ceoHourGoal" placeholder="e.g. 1 hour/day, 5 days/week"/></div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="generateGoalsWeek()">Generate goals week</button>
+        <button class="btn btn-secondary" onclick="clearSection('goals')">Clear</button>
+      </div>
+    </section>
+
+    <section class="card span2">
+      <div class="card-eye">30-Day Habit Streaks</div>
+      <h2>Build Your Momentum</h2>
+      <p class="card-sub-txt">Tap a day to mark it complete. Watch your streaks grow.</p>
+      <div id="streakTrackers"></div>
+    </section>
+
+    <section class="card span2">
+      <div class="card-eye">Weekly Goals</div>
+      <h2>Day by Day</h2>
+      <div class="weekly-section-grid" id="goalsGrid"></div>
+    </section>
+  </div><!-- /goals -->
+
+  <!-- HOMEMAKING TAB -->
+  <div class="app-main" id="view-homemaking" style="display:none">
+    <section class="card span2">
+      <div class="card-eye">Homemaking Hub</div>
+      <h2>Your Home Rhythm</h2>
+      <p class="card-sub-txt">Check off tasks as you go. Each section has a progress bar and custom task input.</p>
+      <div id="homemakingAccordion"></div>
+    </section>
+  </div><!-- /homemaking -->
+
+  <!-- FAMILY HUB TAB -->
+  <div class="app-main" id="view-family" style="display:none">
+    <section class="card span2">
+      <div class="card-eye">Family Hub</div>
+      <h2>Your Crew</h2>
+      <p class="card-sub-txt">Child profiles, reading logs, swim levels, chores, and family calendar — all in one place.</p>
+      <div class="card-actions" style="margin-bottom:16px;">
+        <button class="btn btn-primary" onclick="addChild()">+ Add child</button>
+      </div>
+      <div class="child-cards" id="childProfiles"></div>
+    </section>
+    <section class="card span2">
+      <div class="card-eye">Family Calendar</div>
+      <h2>This Month</h2>
+      <textarea id="familyCalendar" placeholder="Family appointments, birthdays, events, swim meets..." style="min-height:120px;"></textarea>
+    </section>
+    <section class="card">
+      <div class="card-eye">Shared Grocery List</div>
+      <h2>Family Shopping</h2>
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <input type="text" id="familyGroceryInput" placeholder="Add item..." onkeydown="if(event.key==='Enter')addFamilyGrocery()"/>
+        <button class="btn btn-primary btn-sm" onclick="addFamilyGrocery()">Add</button>
+      </div>
+      <div class="list-wrap" id="familyGroceryList"></div>
+    </section>
+    <section class="card">
+      <div class="card-eye">Chore Chart</div>
+      <h2>Weekly Chores</h2>
+      <div class="checklist" id="choreChart">
+        <div class="check-row" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">v</span></div><div class="check-lbl" contenteditable="true">Set table before dinner</div></div>
+        <div class="check-row" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">v</span></div><div class="check-lbl" contenteditable="true">Put toys away before bed</div></div>
+        <div class="check-row" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">v</span></div><div class="check-lbl" contenteditable="true">Help with laundry sort</div></div>
+        <div class="check-row" onclick="toggleCheck(this)"><div class="check-box"><span class="check-tick">v</span></div><div class="check-lbl" contenteditable="true">Saturday room reset</div></div>
+      </div>
+      <button class="btn btn-secondary btn-sm" style="margin-top:10px;" onclick="addChore()">+ Add chore</button>
+    </section>
+  </div><!-- /family -->
+
+
+
+  <!-- FOUNDER ADMIN TAB -->
+  <div class="app-main" id="view-admin" style="display:none">
+    <section class="card span2">
+      <div class="card-eye">Founder Admin</div>
+      <h2>Bloom OS Founder Control Center</h2>
+      <p class="card-sub-txt">Your private dashboard controls: editable memory, daily timeline, AI behavior, profile, and backup tools.</p>
+      <div class="admin-pill-row">
+        <span class="admin-pill">Founder Pro unlocked</span>
+        <span class="admin-pill">No upgrade wall</span>
+        <span class="admin-pill">Local browser save</span>
+        <span class="admin-pill">V17 Cloud Sync</span>
+      </div>
+      <div class="admin-note-box">Founder mode keeps all Bloom OS Pro + Family tools open for your personal daily use. Use export/import before major GitHub updates or browser changes.</div>
+    </section>
+
+    <section class="card span2">
+      <div class="card-eye">Daily Timeline</div>
+      <h2>Yesterday, Today, Tomorrow</h2>
+      <p class="card-sub-txt">Keep your daily running list without losing what happened yesterday or what needs to happen next.</p>
+      <div class="timeline-grid">
+        <div class="timeline-card">
+          <div class="day-lbl">Yesterday</div>
+          <textarea id="founderYesterday" placeholder="What carried over, what got done, what needs follow-up?"></textarea>
+        </div>
+        <div class="timeline-card">
+          <div class="day-lbl">Today</div>
+          <textarea id="founderToday" placeholder="Your daily priorities, reminders, tasks, and notes..."></textarea>
+        </div>
+        <div class="timeline-card">
+          <div class="day-lbl">Tomorrow</div>
+          <textarea id="founderTomorrow" placeholder="Tomorrow's prep list, appointments, meals, homeschool, CEO Hour..."></textarea>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="saveFounderTimeline()">Save timeline</button>
+        <button class="btn btn-secondary" onclick="rollFounderTimeline()">Roll today into yesterday</button>
+        <button class="btn btn-secondary" onclick="clearFounderTimeline()">Clear timeline</button>
+      </div>
+    </section>
+
+    <section class="card span2">
+      <div class="card-eye">Bloom Memory</div>
+      <h2>Editable Founder Memory</h2>
+      <p class="card-sub-txt">Add, edit, and remove the details Bloom should remember while you are building and testing.</p>
+      <div class="grid2">
+        <div>
+          <label class="flabel">Memory category</label>
+          <select id="memoryCategory" style="width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:10px 13px;font-family:'Inter',sans-serif;font-size:14px;color:var(--text);">
+            <option>Family</option>
+            <option>Homeschool</option>
+            <option>Meals</option>
+            <option>Business</option>
+            <option>Health</option>
+            <option>Home</option>
+            <option>Garden</option>
+            <option>Bloom OS</option>
+          </select>
+        </div>
+        <div>
+          <label class="flabel">Quick memory</label>
+          <input id="memoryText" type="text" placeholder="Example: Kids wake around 7:45 AM" onkeydown="if(event.key==='Enter')addFounderMemory()"/>
+        </div>
+      </div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="addFounderMemory()">Add memory</button>
+        <button class="btn btn-secondary" onclick="seedFounderMemory()">Add starter memories</button>
+      </div>
+      <div id="memoryList" class="memory-list"></div>
+    </section>
+
+    <section class="card">
+      <div class="card-eye">AI Controls</div>
+      <h2>Bloom AI Behavior</h2>
+      <label class="flabel">AI suggestions</label>
+      <select id="aiSuggestions" style="width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:10px 13px;font-family:'Inter',sans-serif;font-size:14px;color:var(--text);">
+        <option value="on">On — give proactive suggestions</option>
+        <option value="quiet">Quiet — only suggest when asked</option>
+        <option value="off">Off — no AI suggestions</option>
+      </select>
+      <label class="flabel" style="margin-top:12px;">Founder note to Bloom</label>
+      <textarea id="aiFounderNote" placeholder="Example: Be direct, prioritize revenue, keep me focused on Bloom OS core before expansions."></textarea>
+      <div class="card-actions"><button class="btn btn-primary" onclick="saveFounderAIControls()">Save AI controls</button></div>
+    </section>
+
+    <section class="card">
+      <div class="card-eye">Founder Profile</div>
+      <h2>Onboarding Profile</h2>
+      <p class="card-sub-txt">View or update the same profile Bloom uses to build your week.</p>
+      <div id="founderProfilePreview" style="font-size:13px;color:var(--text-soft);line-height:1.65;white-space:pre-wrap;background:var(--surface2);border:1px solid var(--border-soft);border-radius:12px;padding:12px;min-height:120px;">Loading profile...</div>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="showTab('week',document.getElementById('tab-week-btn'))">Edit profile</button>
+        <button class="btn btn-secondary" onclick="refreshFounderProfilePreview()">Refresh preview</button>
+      </div>
+    </section>
+
+    <section class="card span2">
+      <div class="card-eye">Backup + Reset</div>
+      <h2>Founder Data Tools</h2>
+      <p class="card-sub-txt">Export your current browser data before changing files. Import restores a previous backup into this same browser.</p>
+      <div class="card-actions">
+        <button class="btn btn-primary" onclick="saveBloomCloudData(true)">Save to Cloud</button>
+        <button class="btn btn-secondary" onclick="bloomLoadFromCloud()">Load from Cloud</button>
+        <button class="btn btn-secondary" onclick="exportFounderData()">Export all data</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('founderImportFile').click()">Import data</button>
+        <button class="btn btn-secondary" onclick="clearWeek()">Reset week</button>
+        <button class="btn btn-secondary" onclick="buildWeekWithLoader()">Force regenerate week</button>
+      </div>
+      <input type="file" id="founderImportFile" accept="application/json" style="display:none" onchange="importFounderData(event)"/>
+    </section>
+  </div><!-- /admin -->
+
+  <!-- HELP TAB -->
+  <div class="app-main" id="view-help" style="display:none">
+    <section class="card span2">
+      <div class="card-eye">Help Center</div>
+      <h2>Frequently Asked Questions</h2>
+      <div style="margin-top:16px;" id="faqAccordion"></div>
+    </section>
+    <section class="card">
+      <div class="card-eye">Troubleshooting</div>
+      <h2>Common Issues</h2>
+      <div style="font-size:13.5px;color:var(--text-soft);line-height:1.7;">
+        <p style="margin-bottom:10px;"><strong style="color:var(--text);">My data disappeared.</strong> Bloom OS saves to your browser's local storage. Clearing browser data or switching browsers will reset it. Consider copying important notes.</p>
+        <p style="margin-bottom:10px;"><strong style="color:var(--text);">The app feels slow.</strong> Try refreshing the page. If issues persist, clear cache and reload.</p>
+        <p style="margin-bottom:10px;"><strong style="color:var(--text);">My plan didn't unlock.</strong> If you paid but your plan isn't showing, check your email for a Stripe receipt and contact support with your email address.</p>
+        <p><strong style="color:var(--text);">Dark mode won't save.</strong> Make sure your browser allows local storage for this site (not in private/incognito mode).</p>
+      </div>
+    </section>
+    <section class="card">
+      <div class="card-eye">Community</div>
+      <h2>Connect with Bloom Moms</h2>
+      <p style="font-size:14px;color:var(--text-soft);margin-bottom:16px;line-height:1.6;">Join our community of homeschool moms, mompreneurs, and family CEOs. Share wins, ask questions, and get support.</p>
+      <button class="btn btn-secondary" onclick="showToast('Community link coming soon!')">Join our community</button>
+    </section>
+  </div><!-- /help -->
+
+</div><!-- /app -->
+
+<!-- SCROLL TO TOP -->
+<button id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top" aria-label="Scroll to top">^</button>
+
+<!-- UPGRADE MODAL -->
+<div class="modal-overlay" id="upgradeModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeUpgrade()">x</button>
+    <div class="modal-h">Unlock the full Bloom OS</div>
+    <p class="modal-sub">Choose the plan that fits your family. Cancel anytime.</p>
+    <div class="modal-plans">
+      <div class="modal-plan" id="modalPlanPro" onclick="selectPlan('pro',this)">
+        <div>
+          <div class="modal-plan-name">Pro -- Most popular</div>
+          <div class="modal-plan-desc">Full dashboard - Meals - Homeschool - CEO Hour - Homemaking</div>
+        </div>
+        <div class="modal-plan-price">$12<small>/mo</small></div>
+      </div>
+      <div class="modal-plan" id="modalPlanFamily" onclick="selectPlan('family',this)">
+        <div>
+          <div class="modal-plan-name">Family</div>
+          <div class="modal-plan-desc">Everything in Pro + child profiles, family hub, shared lists</div>
+        </div>
+        <div class="modal-plan-price">$19<small>/mo</small></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-primary" style="flex:1" onclick="handleUpgrade()">Start 7-day free trial</button>
+      <button class="btn btn-secondary" onclick="closeUpgrade()">Maybe later</button>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:12px;text-align:center;">No credit card required to start. Cancel anytime.</p>
+  </div>
+</div>
+
+<!-- WEEKLY ROLLOVER MODAL -->
+<div id="rolloverModal">
+  <div class="rollover-box">
+    <div class="rollover-h">Sunday Reset</div>
+    <p class="rollover-sub">You have incomplete items from last week. What would you like to do?</p>
+    <div class="rollover-items" id="rolloverItems"></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="rolloverToMonday()">Move to Monday</button>
+      <button class="btn btn-secondary" onclick="startFreshWeek()">Start fresh</button>
+      <button class="btn btn-secondary" onclick="closeRollover()">Dismiss</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ============================================================
+// BLOOM OS V17 -- JAVASCRIPT + SUPABASE CLOUD SYNC
+// RULES: ASCII only in strings/comments, no Unicode decorators
+// No apostrophes in single-quoted strings
+// No window-dot-open -- use window.location.href only
+// Validated with new Function() before save
+// ============================================================
+
+// --- CONSTANTS ---
+// --- SUPABASE CLOUD SYNC ---
+var SUPABASE_URL = "https://mifoplikkzvrvxfxqxhl.supabase.co";
+var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1pZm9wbGlra3p2cnZ4ZnhxeGhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3ODg1NjcsImV4cCI6MjA5NzM2NDU2N30.rEwmPHYVZm59t8MTzcVs1CTt9cYv8PVf3n2bwpOFhiI";
+var bloomSupabase = null;
+var bloomCloudUser = null;
+var cloudReady = false;
+var cloudSaving = false;
+var cloudLoadInProgress = false;
+var cloudSaveTimer = null;
+
+var PLAN_KEY = "bloom_plan";
+var NAME_KEY = "bloom_name";
+var JOINED_KEY = "bloom_joined";
+var DARK_KEY = "bloom_dark";
+var STREAK_KEY = "bloom_streaks";
+var ONBOARD_KEY = "bloom_onboard";
+var GROCERY_KEY = "bloom_grocery";
+var FAMILY_GROCERY_KEY = "bloom_family_grocery";
+var CHILDREN_KEY = "bloom_children";
+var HOMEMAKING_KEY = "bloom_homemaking";
+var TODAY_WIN_KEY = "bloom_today_win";
+var ROLLOVER_KEY = "bloom_rollover_dismissed";
+
+var selectedUpgradePlan = "pro";
+
+// Any Bloom data saved locally is queued for cloud sync after login.
+(function(){
+  var nativeSetItem = localStorage.setItem.bind(localStorage);
+  localStorage.setItem = function(key, value) {
+    nativeSetItem(key, value);
+    try { if (isBloomDataKey(key)) scheduleCloudSave(); } catch(e) {}
+  };
+})();
+
+
+var DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+
+var HOMEMAKING_SECTIONS = [
+  {
+    id: "daily",
+    label: "Daily",
+    tasks: [
+      "Make beds",
+      "Wipe kitchen counters",
+      "Load/unload dishwasher",
+      "Sweep kitchen floor",
+      "Quick bathroom wipe-down",
+      "One load of laundry",
+      "Evening tidy + toy reset"
+    ]
+  },
+  {
+    id: "biweekly",
+    label: "Bi-Weekly",
+    tasks: [
+      "Vacuum all rooms",
+      "Mop hard floors",
+      "Clean bathrooms fully",
+      "Change bed linens",
+      "Wipe down appliances",
+      "Clean mirrors + glass"
+    ]
+  },
+  {
+    id: "monthly",
+    label: "Monthly",
+    tasks: [
+      "Deep clean fridge",
+      "Wipe cabinet fronts",
+      "Clean oven",
+      "Dust ceiling fans + vents",
+      "Wash throw pillows/blankets",
+      "Declutter one area",
+      "Check pantry + expiration dates"
+    ]
+  },
+  {
+    id: "quarterly",
+    label: "Quarterly",
+    tasks: [
+      "Rotate seasonal clothes",
+      "Deep clean baseboards",
+      "Wash windows inside",
+      "Clean behind appliances",
+      "Check smoke/CO detectors",
+      "Donate unused items"
+    ]
+  },
+  {
+    id: "biyearly",
+    label: "Bi-Yearly",
+    tasks: [
+      "Flip or rotate mattresses",
+      "Deep clean garage",
+      "Clean gutters",
+      "Wash outside windows",
+      "Service HVAC filters",
+      "Touch up paint or caulk"
+    ]
+  },
+  {
+    id: "yearly",
+    label: "Yearly",
+    tasks: [
+      "Deep clean entire home",
+      "Audit and purge all closets",
+      "Power wash exterior",
+      "Service major appliances",
+      "Update home emergency kit",
+      "Review home insurance",
+      "Full pantry + medicine cabinet reset"
+    ]
+  }
+];
+
+var FAQ_ITEMS = [
+  {
+    q: "What is Bloom OS?",
+    a: "Bloom OS is a family command center designed for homeschool moms and mompreneurs. It combines your weekly planner, meal planning, homeschool hub, CEO Hour tracker, goals, and homemaking schedule all in one calm dashboard."
+  },
+  {
+    q: "Is my data saved between sessions?",
+    a: "Yes -- Bloom OS saves everything to your browser's local storage. This means your data stays on your device and is available whenever you return. Note: clearing your browser data will reset the app."
+  },
+  {
+    q: "What is the difference between Pro and Family?",
+    a: "Pro gives you the full dashboard -- Weekly Build Engine, meals, homeschool, CEO Hour, Homemaking Hub, goal tracker, and Daily Bloom Insights. Family adds everything in Pro plus child profiles, individual homeschool plans per child, reading logs, swim level tracking, chore charts, a family calendar, and shared grocery lists."
+  },
+  {
+    q: "How does the free trial work?",
+    a: "The 7-day free trial gives you full Pro access. No credit card is required to start. After 7 days, you can choose to continue with a paid plan or revert to the free tier."
+  },
+  {
+    q: "Can I cancel anytime?",
+    a: "Yes. You can cancel your subscription at any time with no penalty. Your access continues until the end of the billing period."
+  },
+  {
+    q: "What is the Weekly Build Engine?",
+    a: "The Weekly Build Engine generates your entire weekly plan automatically. You fill in your priorities, events, meals, homeschool focus, and business task -- Bloom builds out a day-by-day schedule across all sections of the app."
+  },
+  {
+    q: "What are habit streaks?",
+    a: "Habit streaks are 30-day grids on the Goals tab for four core habits: Wake time, Fitness, Bible/devotion, and CEO Hour. Tap each day to mark it complete and watch your consistency grow over time."
+  },
+  {
+    q: "What is the Daily Bloom Insight?",
+    a: "The Daily Bloom Insight is a personalized motivational message shown at the top of your Today tab. It reads your current goal progress and surfaces an encouraging nudge based on your lowest-scoring area."
+  },
+  {
+    q: "How do I add children to the Family Hub?",
+    a: "Go to the Family Hub tab and tap the Add child button. You can give each child an emoji avatar, name, reading log, swim level, and individual homeschool plan."
+  },
+  {
+    q: "Why is the app asking me to upgrade?",
+    a: "Some features -- including the Weekly Build Engine, Meals planner, Homeschool Hub, CEO Hour, Homemaking Hub, and Family Hub -- require a Pro or Family plan. Tap Upgrade to see pricing and start a free trial."
+  }
+];
+
+var BLOOM_INSIGHTS = [
+  "Your consistency is your superpower. Even small steps forward today are building the life you are working toward.",
+  "You are not behind. You are right on time for the season you are in. Keep going.",
+  "A calm mom creates a calm home. The most important thing you can do today is protect your peace.",
+  "One priority completed is better than five started. Pick one and finish it.",
+  "You are building something that matters -- for your family, your business, and yourself. Keep going.",
+  "Progress is not always visible day to day, but it is always accumulating. Trust the process.",
+  "Your CEO Hour is not selfish -- it is the engine that funds everything else you care about.",
+  "Homeschool does not have to be perfect to be powerful. Showing up is enough.",
+  "Rest is productive. If you need to slow down today, that is wisdom, not weakness.",
+  "You have already done hard things. Today is no different. You can handle what is in front of you."
+];
+
+// ============================================================
+// INIT
+// ============================================================
+async function init() {
+  applyDarkMode();
+  initSupabaseClient();
+  await checkCloudSession();
+}
+
+function initSupabaseClient() {
+  try {
+    if (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY) {
+      bloomSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      cloudReady = true;
+    }
+  } catch(e) {
+    cloudReady = false;
+  }
+}
+
+async function checkCloudSession() {
+  if (!cloudReady || !bloomSupabase) {
+    showFounderLogin("Cloud sync is unavailable. Check internet and refresh.");
+    return;
+  }
+  try {
+    var result = await bloomSupabase.auth.getSession();
+    var session = result && result.data ? result.data.session : null;
+    if (session && session.user) {
+      bloomCloudUser = session.user;
+      await loadBloomCloudData();
+      localStorage.setItem("bloom_founder_authed", "1");
+      enterFounderApp();
+      setupCloudAutosave();
+      setCloudStatus("Signed in. Cloud sync active.");
+    } else {
+      showFounderLogin("Sign in to sync Bloom across your devices.");
+    }
+  } catch(e) {
+    showFounderLogin("Could not check session. Sign in again.");
+  }
+}
+
+function showFounderLogin(message) {
+  var fl = document.getElementById("founderLogin");
+  var landing = document.getElementById("landing");
+  var app = document.getElementById("app");
+  var success = document.getElementById("successPage");
+  if (fl) fl.style.display = "flex";
+  if (landing) landing.style.display = "none";
+  if (app) app.style.display = "none";
+  if (success) success.style.display = "none";
+  setCloudStatus(message || "Sign in to continue.");
+}
+
+function enterFounderApp() {
+  localStorage.setItem(PLAN_KEY, "family");
+  localStorage.setItem(NAME_KEY, "Jullisa");
+  if (!localStorage.getItem(JOINED_KEY)) {
+    localStorage.setItem(JOINED_KEY, new Date().toISOString());
+  }
+  var fl = document.getElementById("founderLogin");
+  var landing = document.getElementById("landing");
+  var app = document.getElementById("app");
+  var success = document.getElementById("successPage");
+  if (fl) fl.style.display = "none";
+  if (landing) landing.style.display = "none";
+  if (success) success.style.display = "none";
+  if (app) app.style.display = "block";
+
+  updateHeader();
+  renderDate();
+  renderStreakTrackers();
+  renderHomemakingAccordion();
+  renderFaqAccordion();
+  renderWeekGrids();
+  renderGroceryList();
+  renderFamilyGroceryList();
+  renderChildProfiles();
+  loadOnboarding();
+  loadAllEditableFieldsFromLocal();
+  loadTodayWin();
+  updateSmartToday();
+  updateBloomInsight();
+  updateMemberBadge();
+  checkSundayRollover();
+  setupScrollTop();
+  updatePlanUI();
+  loadFounderAdmin();
+  updateCloudBadge();
+  scheduleCloudSave();
+}
+
+// ============================================================
+// STRIPE + SUCCESS REDIRECT
+// ============================================================
+function checkSuccessRedirect() {
+  var params = new URLSearchParams(window.location.search);
+  var success = params.get("success");
+  var plan = params.get("plan");
+  if (success === "true" && (plan === "pro" || plan === "family")) {
+    localStorage.setItem(PLAN_KEY, plan);
+    if (!localStorage.getItem(JOINED_KEY)) {
+      localStorage.setItem(JOINED_KEY, new Date().toISOString());
+    }
+    window.history.replaceState({}, document.title, window.location.pathname);
+    showSuccessPage(plan);
+  }
+}
+
+function showSuccessPage(plan) {
+  document.getElementById("landing").style.display = "none";
+  document.getElementById("app").style.display = "none";
+  var sp = document.getElementById("successPage");
+  sp.style.display = "flex";
+  sp.classList.add("visible");
+  var h = document.getElementById("successHeadline");
+  if (plan === "family") {
+    h.textContent = "Welcome to Bloom OS Family!";
+  } else {
+    h.textContent = "Welcome to Bloom OS Pro!";
+  }
+  var badge = document.getElementById("successMemberBadge");
+  badge.textContent = "Today -- " + formatDate(new Date());
+  launchConfetti();
+  var savedName = localStorage.getItem(NAME_KEY);
+  if (savedName) {
+    document.getElementById("successNameInput").value = savedName;
+  }
+}
+
+function saveSuccessName() {
+  var val = document.getElementById("successNameInput").value.trim();
+  if (val) {
+    localStorage.setItem(NAME_KEY, val);
+    showToast("Welcome, " + val + "!");
+  }
+}
+
+function startFirstWeek() {
+  saveSuccessName();
+  document.getElementById("successPage").style.display = "none";
+  document.getElementById("successPage").classList.remove("visible");
+  enterApp(localStorage.getItem(PLAN_KEY) || "pro");
+  showTab("week", document.getElementById("tab-week-btn"));
+}
+
+function goToStripe(type) {
+  // Founder edition -- Stripe not needed, all plans unlocked
+  showToast("Founder Edition -- already fully unlocked!");
+}
+
+// ============================================================
+// DARK MODE
+// ============================================================
+function toggleDarkMode() {
+  var isDark = document.body.classList.toggle("dark-mode");
+  localStorage.setItem(DARK_KEY, isDark ? "1" : "0");
+  var icon = isDark ? "☀️" : "🌙";
+  var dn = document.getElementById("darkToggleNav");
+  var da = document.getElementById("darkToggleApp");
+  if (dn) dn.textContent = icon;
+  if (da) da.textContent = icon;
+}
+
+function applyDarkMode() {
+  var dark = localStorage.getItem(DARK_KEY);
+  if (dark === "1") {
+    document.body.classList.add("dark-mode");
+    var dn = document.getElementById("darkToggleNav");
+    var da = document.getElementById("darkToggleApp");
+    if (dn) dn.textContent = "☀️";
+    if (da) da.textContent = "☀️";
+  }
+}
+
+// ============================================================
+// SCROLL TO TOP
+// ============================================================
+function setupScrollTop() {
+  var btn = document.getElementById("scrollTopBtn");
+  window.addEventListener("scroll", function() {
+    if (window.scrollY > 300) {
+      btn.classList.add("visible");
+    } else {
+      btn.classList.remove("visible");
+    }
+  });
+}
+
+// ============================================================
+// ENTER APP
+// ============================================================
+function enterApp(plan) {
+  if (plan && plan !== "free") {
+    if (!localStorage.getItem(PLAN_KEY)) {
+      localStorage.setItem(PLAN_KEY, plan);
+    }
+    if (!localStorage.getItem(JOINED_KEY)) {
+      localStorage.setItem(JOINED_KEY, new Date().toISOString());
+    }
+  }
+  document.getElementById("landing").style.display = "none";
+  document.getElementById("app").style.display = "block";
+  updateHeader();
+  updatePlanUI();
+  updateMemberBadge();
+  updateBloomInsight();
+}
+
+// ============================================================
+// PLAN UI
+// ============================================================
+function getPlan() {
+  return localStorage.getItem(PLAN_KEY) || "free";
+}
+
+function hasPro() {
+  var p = getPlan();
+  return p === "pro" || p === "family";
+}
+
+function hasFamily() {
+  return getPlan() === "family";
+}
+
+function updatePlanUI() {
+  var label = document.getElementById("planLabel");
+  var upgradeLink = document.getElementById("upgradeLink");
+  if (label) label.textContent = "Founder Pro";
+  if (upgradeLink) upgradeLink.style.display = "none";
+}
+
+// ============================================================
+// HEADER
+// ============================================================
+function updateHeader() {
+  var name = localStorage.getItem(NAME_KEY);
+  var greetEl = document.getElementById("appGreeting");
+  var headEl = document.getElementById("appHeadline");
+  if (!greetEl) return;
+  var hour = new Date().getHours();
+  var timeGreet = "Good morning";
+  if (hour >= 12 && hour < 17) timeGreet = "Good afternoon";
+  if (hour >= 17) timeGreet = "Good evening";
+  if (name) {
+    greetEl.textContent = timeGreet + ", " + name;
+  } else {
+    greetEl.textContent = timeGreet;
+  }
+}
+
+function renderDate() {
+  var el = document.getElementById("appDate");
+  if (!el) return;
+  el.textContent = formatDate(new Date());
+}
+
+function formatDate(d) {
+  var opts = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+  return d.toLocaleDateString("en-US", opts);
+}
+
+function updateMemberBadge() {
+  var row = document.getElementById("memberBadgeRow");
+  if (!row) return;
+  var joined = localStorage.getItem(JOINED_KEY);
+  if (!joined || !hasPro()) {
+    row.style.display = "none";
+    return;
+  }
+  var joinDate = new Date(joined);
+  var now = new Date();
+  var diffMs = now - joinDate;
+  var diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  var label = "";
+  if (diffDays < 7) {
+    label = "Bloom OS has been with you for " + diffDays + " day" + (diffDays === 1 ? "" : "s");
+  } else if (diffDays < 30) {
+    var weeks = Math.floor(diffDays / 7);
+    label = "Bloom OS has been with you for " + weeks + " week" + (weeks === 1 ? "" : "s");
+  } else {
+    var months = Math.floor(diffDays / 30);
+    label = "Bloom OS has been with you for " + months + " month" + (months === 1 ? "" : "s");
+  }
+  row.textContent = label;
+  row.style.display = "block";
+}
+
+// ============================================================
+// TABS
+// ============================================================
+function showTab(id, btn) {
+  var views = document.querySelectorAll(".app-main");
+  views.forEach(function(v) { v.style.display = "none"; });
+  var tabs = document.querySelectorAll(".app-tab");
+  tabs.forEach(function(t) { t.classList.remove("active"); });
+  var target = document.getElementById("view-" + id);
+  if (target) target.style.display = "grid";
+  if (btn) btn.classList.add("active");
+}
+
+function showTabGated(id, btn, requiredPlan) {
+  // Founder edition -- all tabs unlocked, no gating
+  showTab(id, btn);
+}
+
+// ============================================================
+// UPGRADE MODAL
+// ============================================================
+function openUpgrade() {
+  // Founder edition -- no upgrade modal needed, all features unlocked
+  showToast("All features unlocked -- Founder Edition!");
+}
+
+function closeUpgrade() {}
+function handleUpgrade() {}
+
+function selectPlan(plan, el) {
+  selectedUpgradePlan = plan;
+  document.querySelectorAll(".modal-plan").forEach(function(p) { p.classList.remove("selected"); });
+  el.classList.add("selected");
+}
+
+// handleUpgrade is defined above as a no-op in Founder edition
+
+// ============================================================
+// TOAST
+// ============================================================
+function showToast(msg) {
+  var t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(function() { t.classList.remove("show"); }, 2800);
+}
+
+// ============================================================
+// SCROLL TO SECTION (landing)
+// ============================================================
+function scrollToSection(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth" });
+}
+
+// ============================================================
+// PRINT
+// ============================================================
+function printWeek() {
+  showTab("week", document.getElementById("tab-week-btn"));
+  setTimeout(function() { window.print(); }, 200);
+}
+
+// ============================================================
+// CHECK/TOGGLE
+// ============================================================
+function toggleCheck(row) {
+  row.classList.toggle("done");
+  updateProgressBars();
+}
+
+function updateProgressBars() {
+  var todayRows = document.querySelectorAll("#todayChecklist .check-row");
+  var done = 0;
+  todayRows.forEach(function(r) { if (r.classList.contains("done")) done++; });
+  var total = todayRows.length;
+  var pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  var bar = document.getElementById("todayProg");
+  var txt = document.getElementById("todayProgTxt");
+  if (bar) bar.style.width = pct + "%";
+  if (txt) txt.textContent = done + " of " + total + " done";
+}
+
+// ============================================================
+// WEEK GRIDS RENDER
+// ============================================================
+function renderWeekGrids() {
+  renderDayGrid("weekGrid", "week");
+  renderMiniGrid("mealsGrid", "meal");
+  renderMiniGrid("schoolGrid", "school");
+  renderMiniGrid("ceoGrid", "ceo");
+  renderMiniGrid("goalsGrid", "goals");
+}
+
+function renderDayGrid(containerId, prefix) {
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  var html = "";
+  for (var i = 0; i < DAYS.length; i++) {
+    var day = DAYS[i];
+    var key = prefix + "_" + day;
+    var saved = localStorage.getItem(key) || "";
+    html += "<div class=\"day-card\">";
+    html += "<div class=\"day-lbl\">" + day + "</div>";
+    html += "<textarea id=\"" + key + "\" placeholder=\"" + day + " plan...\" onchange=\"saveDayField('" + key + "')\">" + escHtml(saved) + "</textarea>";
+    html += "</div>";
+  }
+  container.innerHTML = html;
+}
+
+function renderMiniGrid(containerId, prefix) {
+  var container = document.getElementById(containerId);
+  if (!container) return;
+  var html = "";
+  for (var i = 0; i < DAYS.length; i++) {
+    var day = DAYS[i];
+    var key = prefix + "_" + day;
+    var saved = localStorage.getItem(key) || "";
+    html += "<div class=\"weekly-mini-card\">";
+    html += "<div class=\"day-lbl\">" + day + "</div>";
+    html += "<textarea id=\"" + key + "\" placeholder=\"" + day + "...\" onchange=\"saveDayField('" + key + "')\">" + escHtml(saved) + "</textarea>";
+    html += "</div>";
+  }
+  container.innerHTML = html;
+}
+
+function saveDayField(key) {
+  var el = document.getElementById(key);
+  if (el) localStorage.setItem(key, el.value);
+}
+
+function escHtml(str) {
+  return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+// ============================================================
+// ONBOARDING
+// ============================================================
+function saveOnboardingAndBuild() {
+  var data = {
+    rhythm: document.getElementById("onboardRhythm").value,
+    kids: document.getElementById("onboardKids").value,
+    meals: document.getElementById("onboardMeals").value,
+    business: document.getElementById("onboardBusiness").value,
+    home: document.getElementById("onboardHome").value,
+    energy: document.getElementById("onboardEnergy").value
+  };
+  localStorage.setItem(ONBOARD_KEY, JSON.stringify(data));
+  var status = document.getElementById("onboardingStatus");
+  if (status) status.textContent = "Profile saved -- building your week...";
+  updateSmartToday();
+  buildWeekWithLoader();
+}
+
+function loadOnboarding() {
+  var raw = localStorage.getItem(ONBOARD_KEY);
+  if (!raw) return;
+  try {
+    var data = JSON.parse(raw);
+    var fields = ["Rhythm","Kids","Meals","Business","Home","Energy"];
+    fields.forEach(function(f) {
+      var el = document.getElementById("onboard" + f);
+      if (el && data[f.toLowerCase()]) el.value = data[f.toLowerCase()];
+    });
+    var status = document.getElementById("onboardingStatus");
+    if (status) status.textContent = "Profile saved";
+  } catch(e) {}
+}
+
+function fillSampleDefaults() {
+  document.getElementById("onboardRhythm").value = "Kids wake at 7am. Best CEO window is 9-10am and after 8pm.";
+  document.getElementById("onboardKids").value = "Two kids, ages 4 and 6. Curriculum: Sonlight + hands-on activities.";
+  document.getElementById("onboardMeals").value = "Budget-conscious, no allergies. Love sheet pan dinners and batch cooking on Sundays.";
+  document.getElementById("onboardBusiness").value = "Online coaching and digital products. Monthly income goal: $3,000.";
+  document.getElementById("onboardHome").value = "Laundry on Mondays and Thursdays. Grocery run on Saturdays.";
+  document.getElementById("onboardEnergy").value = "Sharpest in the morning before 10am. Energy dips after lunch.";
+  document.getElementById("events").value = "Swim lessons Wednesday 3pm. Library Tuesday 10am.";
+  document.getElementById("priorities").value = "Launch product page, deep clean kitchen, finish email sequence.";
+  document.getElementById("revenueTask").value = "Write 3 Reels scripts and record batch.";
+  document.getElementById("doneBy").value = "After kids bedtime, 8-10pm.";
+  document.getElementById("breakfast").value = "Smoothies + whole grain muffins";
+  document.getElementById("lunch").value = "Leftovers or snack plates";
+  document.getElementById("dinner").value = "Sheet pan chicken, rice, and roasted veggies";
+  document.getElementById("bible").value = "Tiny Truths Bible + calendar/weather circle time";
+  document.getElementById("reading").value = "Hooked on Phonics reader + evening read-aloud";
+  document.getElementById("mathWriting").value = "Flashcards + wipeable workbook pages";
+  document.getElementById("sensory").value = "Water table Monday, kinetic sand Wednesday, outdoor Friday";
+  document.getElementById("incomeGoal").value = "$3,000/month";
+  document.getElementById("ceoRevenue").value = "Finish sales page + post 3 Reels";
+  document.getElementById("ceoDoneBy").value = "8-10pm after bedtime";
+  document.getElementById("ceoContent").value = "3 Reels, 1 email newsletter, 1 blog post";
+  document.getElementById("wakeGoal").value = "5:00 AM";
+  document.getElementById("fitnessGoal").value = "30 min walk daily";
+  document.getElementById("bibleGoal").value = "2 chapters daily";
+  document.getElementById("ceoHourGoal").value = "1 hour/day, 5 days/week";
+  showToast("Sample defaults loaded!");
+}
+
+// ============================================================
+// SMART TODAY PANEL
+// ============================================================
+function updateSmartToday() {
+  var raw = localStorage.getItem(ONBOARD_KEY);
+  var data = {};
+  if (raw) {
+    try { data = JSON.parse(raw); } catch(e) {}
+  }
+  var schoolEl = document.getElementById("smartSchool");
+  var mealsEl = document.getElementById("smartMeals");
+  var ceoEl = document.getElementById("smartCeo");
+  var homeEl = document.getElementById("smartHome");
+  var day = new Date().toLocaleDateString("en-US", { weekday: "long" });
+  if (schoolEl) {
+    if (data.kids) {
+      schoolEl.innerHTML = "<strong>" + day + ":</strong> " + (localStorage.getItem("school_" + day) || "See Homeschool tab for today plan") + "<br><small style='color:var(--text-muted)'>" + data.kids.substring(0, 80) + "</small>";
+    } else {
+      schoolEl.textContent = "Fill in your onboarding profile to see your personalized homeschool view here.";
+    }
+  }
+  if (mealsEl) {
+    var b = localStorage.getItem("today_breakfast") || localStorage.getItem("breakfast") || "";
+    var l = localStorage.getItem("today_lunch") || localStorage.getItem("lunch") || "";
+    var d = localStorage.getItem("today_dinner") || localStorage.getItem("dinner") || "";
+    if (b || l || d) {
+      mealsEl.innerHTML = (b ? "B: " + b + "<br>" : "") + (l ? "L: " + l + "<br>" : "") + (d ? "D: " + d : "");
+    } else {
+      mealsEl.textContent = "Fill in your onboarding profile to see today meals here.";
+    }
+  }
+  if (ceoEl) {
+    var ceoTask = localStorage.getItem("ceoRevenue") || localStorage.getItem("ceo_" + day) || "";
+    if (ceoTask) {
+      ceoEl.innerHTML = "<strong>Today:</strong> " + ceoTask;
+    } else {
+      ceoEl.textContent = "Add your revenue task to see your CEO focus here.";
+    }
+  }
+  if (homeEl) {
+    if (data.home) {
+      homeEl.innerHTML = "<strong>" + day + ":</strong> " + data.home.substring(0, 100);
+    } else {
+      homeEl.textContent = "Fill in your home rhythm to see today home tasks here.";
+    }
+  }
+}
+
+// ============================================================
+// BLOOM INSIGHT
+// ============================================================
+function updateBloomInsight() {
+  var el = document.getElementById("insightText");
+  if (!el) return;
+  var idx = new Date().getDate() % BLOOM_INSIGHTS.length;
+  el.textContent = BLOOM_INSIGHTS[idx];
+}
+
+// ============================================================
+// TODAY WIN
+// ============================================================
+function loadTodayWin() {
+  var el = document.getElementById("todayWin");
+  if (!el) return;
+  var saved = localStorage.getItem(TODAY_WIN_KEY + "_" + new Date().toDateString());
+  if (saved) el.value = saved;
+  el.addEventListener("input", function() {
+    localStorage.setItem(TODAY_WIN_KEY + "_" + new Date().toDateString(), el.value);
+  });
+}
+
+// ============================================================
+// WEEK BUILD
+// ============================================================
+function buildWeekWithLoader() {
+  var btn = document.getElementById("buildBtn");
+  if (btn) {
+    btn.textContent = "Building with AI...";
+    btn.disabled = true;
+  }
+  buildWeekWithAI().then(function() {
+    if (btn) {
+      btn.textContent = "Build My Week - Auto Fill All";
+      btn.disabled = false;
+    }
+  }).catch(function(err) {
+    console.error("AI build failed, falling back:", err);
+    buildWeek();
+    if (btn) {
+      btn.textContent = "Build My Week - Auto Fill All";
+      btn.disabled = false;
+    }
+    showToast("Week built!");
+  });
+}
+
+async function buildWeekWithAI() {
+  var rhythm = document.getElementById("onboardRhythm") ? document.getElementById("onboardRhythm").value : "";
+  var kids = document.getElementById("onboardKids") ? document.getElementById("onboardKids").value : "";
+  var meals = document.getElementById("onboardMeals") ? document.getElementById("onboardMeals").value : "";
+  var business = document.getElementById("onboardBusiness") ? document.getElementById("onboardBusiness").value : "";
+  var home = document.getElementById("onboardHome") ? document.getElementById("onboardHome").value : "";
+  var energy = document.getElementById("onboardEnergy") ? document.getElementById("onboardEnergy").value : "";
+  var priorities = document.getElementById("priorities") ? document.getElementById("priorities").value : "";
+  var events = document.getElementById("events") ? document.getElementById("events").value : "";
+  var revenueTask = document.getElementById("revenueTask") ? document.getElementById("revenueTask").value : "";
+  var doneBy = document.getElementById("doneBy") ? document.getElementById("doneBy").value : "";
+  var breakfast = document.getElementById("breakfast") ? document.getElementById("breakfast").value : "";
+  var lunch = document.getElementById("lunch") ? document.getElementById("lunch").value : "";
+  var dinner = document.getElementById("dinner") ? document.getElementById("dinner").value : "";
+  var bible = document.getElementById("bible") ? document.getElementById("bible").value : "";
+  var reading = document.getElementById("reading") ? document.getElementById("reading").value : "";
+  var mathW = document.getElementById("mathWriting") ? document.getElementById("mathWriting").value : "";
+  var sensory = document.getElementById("sensory") ? document.getElementById("sensory").value : "";
+  var wakeGoal = document.getElementById("wakeGoal") ? document.getElementById("wakeGoal").value : "";
+  var fitnessGoal = document.getElementById("fitnessGoal") ? document.getElementById("fitnessGoal").value : "";
+  var bibleGoal = document.getElementById("bibleGoal") ? document.getElementById("bibleGoal").value : "";
+  var ceoRev = document.getElementById("ceoRevenue") ? document.getElementById("ceoRevenue").value : "";
+  var ceoContent = document.getElementById("ceoContent") ? document.getElementById("ceoContent").value : "";
+  var incomeGoal = document.getElementById("incomeGoal") ? document.getElementById("incomeGoal").value : "";
+
+  var prompt = "You are Bloom OS, a family command center AI for a homeschool mom and mompreneur. Build a complete, realistic, personalized weekly plan based on the profile below. Return ONLY valid JSON, no markdown, no backticks, no explanation.\n\nProfile:\n- Family rhythm: " + (rhythm || "not set") + "\n- Kids and homeschool: " + (kids || "not set") + "\n- Meals style: " + (meals || "not set") + "\n- Business focus: " + (business || "not set") + "\n- Home rhythm: " + (home || "not set") + "\n- Energy windows: " + (energy || "not set") + "\n\nThis week:\n- Priorities: " + (priorities || "not set") + "\n- Events: " + (events || "not set") + "\n- Revenue task: " + (revenueTask || "not set") + "\n- Done-by window: " + (doneBy || "not set") + "\n- Breakfast default: " + (breakfast || "smoothies") + "\n- Lunch default: " + (lunch || "snack plates") + "\n- Dinner default: " + (dinner || "sheet pan meal") + "\n- Bible/circle: " + (bible || "Bible + circle time") + "\n- Reading: " + (reading || "reading practice") + "\n- Math/writing: " + (mathW || "math and writing") + "\n- Sensory/outdoor: " + (sensory || "outdoor play") + "\n- Wake goal: " + (wakeGoal || "5am") + "\n- Fitness goal: " + (fitnessGoal || "30 min walk") + "\n- Bible goal: " + (bibleGoal || "Bible reading") + "\n- CEO revenue task: " + (ceoRev || "revenue task") + "\n- CEO content: " + (ceoContent || "content batch") + "\n- Income goal: " + (incomeGoal || "not set") + "\n\nReturn a JSON object with exactly these keys, each being an object with keys Monday through Sunday (7 keys). Each value is a short multi-line string plan for that day (2-6 lines, use \\n for newlines):\n{\n  \"week\": { \"Monday\": \"...\", ... },\n  \"meal\": { \"Monday\": \"B: ...\\nL: ...\\nD: ...\", ... },\n  \"school\": { \"Monday\": \"...\", ... },\n  \"ceo\": { \"Monday\": \"...\", ... },\n  \"goals\": { \"Monday\": \"...\", ... }\n}\nMake the plans feel warm, realistic, and specific to this family. Do not use generic filler. Do not include JSON backticks or any text outside the JSON object.";
+
+  var response = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-6",
+      max_tokens: 1000,
+      messages: [{ role: "user", content: prompt }]
+    })
+  });
+
+  if (!response.ok) throw new Error("API request failed: " + response.status);
+
+  var data = await response.json();
+  var text = data.content.map(function(item) { return item.text || ""; }).join("");
+  var clean = text.replace(/```json|```/g, "").trim();
+  var plan = JSON.parse(clean);
+
+  var sections = ["week", "meal", "school", "ceo", "goals"];
+  sections.forEach(function(section) {
+    if (!plan[section]) return;
+    var DAYS_LOCAL = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+    DAYS_LOCAL.forEach(function(day) {
+      var key = section + "_" + day;
+      var el = document.getElementById(key);
+      var val = plan[section][day] || "";
+      if (el) {
+        el.value = val;
+        localStorage.setItem(key, val);
+      }
+    });
+  });
+
+  showToast("Your AI week is ready!");
+}
+
+function buildWeek() {
+  var priorities = document.getElementById("priorities") ? document.getElementById("priorities").value : "";
+  var events = document.getElementById("events") ? document.getElementById("events").value : "";
+  var revenueTask = document.getElementById("revenueTask") ? document.getElementById("revenueTask").value : "";
+  var doneBy = document.getElementById("doneBy") ? document.getElementById("doneBy").value : "";
+  var breakfast = document.getElementById("breakfast") ? document.getElementById("breakfast").value || "Smoothies" : "Smoothies";
+  var lunch = document.getElementById("lunch") ? document.getElementById("lunch").value || "Snack plates" : "Snack plates";
+  var dinner = document.getElementById("dinner") ? document.getElementById("dinner").value || "Sheet pan meal" : "Sheet pan meal";
+  var bible = document.getElementById("bible") ? document.getElementById("bible").value || "Bible + circle time" : "Bible + circle time";
+  var reading = document.getElementById("reading") ? document.getElementById("reading").value || "Reading practice" : "Reading practice";
+  var mathW = document.getElementById("mathWriting") ? document.getElementById("mathWriting").value || "Math + writing" : "Math + writing";
+  var sensory = document.getElementById("sensory") ? document.getElementById("sensory").value || "Outdoor play" : "Outdoor play";
+  var ceoRev = document.getElementById("ceoRevenue") ? document.getElementById("ceoRevenue").value || revenueTask || "CEO Hour task" : "CEO Hour task";
+  var wakeGoal = document.getElementById("wakeGoal") ? document.getElementById("wakeGoal").value || "5am" : "5am";
+  var fitnessGoal = document.getElementById("fitnessGoal") ? document.getElementById("fitnessGoal").value || "30 min walk" : "30 min walk";
+  var bibleGoal = document.getElementById("bibleGoal") ? document.getElementById("bibleGoal").value || "Bible reading" : "Bible reading";
+
+  var dayPlans = {
+    Monday: "Wake " + wakeGoal + " | " + fitnessGoal + "\n" + bible + "\n" + reading + " + " + mathW + "\nCEO Hour: " + ceoRev + "\nMeals: " + breakfast + " / " + lunch + " / " + dinner + "\nLaundry + home reset",
+    Tuesday: "Wake " + wakeGoal + " | " + fitnessGoal + "\n" + bible + "\n" + reading + " + " + mathW + "\nCEO Hour: content batch\nMeals: " + breakfast + " / " + lunch + " / " + dinner + "\nErrands + appointments",
+    Wednesday: "Wake " + wakeGoal + " | " + fitnessGoal + "\n" + bible + "\n" + sensory + " day\nCEO Hour: email + follow-up\nMeals: " + breakfast + " / " + lunch + " / " + dinner + "\nMid-week reset",
+    Thursday: "Wake " + wakeGoal + " | " + bibleGoal + "\n" + bible + "\n" + reading + " + " + mathW + "\nCEO Hour: " + ceoRev + "\nMeals: " + breakfast + " / " + lunch + " / " + dinner + "\nDeep clean one room",
+    Friday: "Wake " + wakeGoal + " | " + fitnessGoal + "\n" + bible + "\nFriday fun learning\nCEO Hour: review week wins\nMeals: " + breakfast + " / " + lunch + " / Takeout or easy dinner\nFamily movie night prep",
+    Saturday: "Rest morning | Family time\nGrocery run\nBatch cook for next week: " + dinner + "\nOutdoor activity: " + sensory + "\nHome reset + prep for Sunday",
+    Sunday: "Church + family rest\nWeekly review + plan next week\nPriorities: " + priorities + "\nEvents ahead: " + events + "\nSet intentions for Monday"
+  };
+
+  DAYS.forEach(function(day) {
+    var weekKey = "week_" + day;
+    var el = document.getElementById(weekKey);
+    if (el && !el.value) {
+      el.value = dayPlans[day] || "";
+      localStorage.setItem(weekKey, el.value);
+    }
+  });
+
+  generateMealsWeek();
+  generateHomeschoolWeek();
+  generateCeoWeek();
+  generateGoalsWeek();
+}
+
+function generateMealsWeek() {
+  var breakfast = document.getElementById("breakfast") ? document.getElementById("breakfast").value || "Smoothies" : "Smoothies";
+  var lunch = document.getElementById("lunch") ? document.getElementById("lunch").value || "Snack plates" : "Snack plates";
+  var dinner = document.getElementById("dinner") ? document.getElementById("dinner").value || "Sheet pan meal" : "Sheet pan meal";
+  var dinners = [dinner, "Pasta + salad", "Slow cooker soup", dinner, "Tacos", "Homemade pizza", "Leftovers"];
+  DAYS.forEach(function(day, i) {
+    var key = "meal_" + day;
+    var el = document.getElementById(key);
+    if (el && !el.value) {
+      el.value = "B: " + breakfast + "\nL: " + lunch + "\nD: " + dinners[i];
+      localStorage.setItem(key, el.value);
+    }
+  });
+}
+
+function generateHomeschoolWeek() {
+  var bible = document.getElementById("bible") ? document.getElementById("bible").value || "Bible + circle time" : "Bible + circle time";
+  var reading = document.getElementById("reading") ? document.getElementById("reading").value || "Reading practice" : "Reading practice";
+  var mathW = document.getElementById("mathWriting") ? document.getElementById("mathWriting").value || "Math + writing" : "Math + writing";
+  var sensory = document.getElementById("sensory") ? document.getElementById("sensory").value || "Outdoor play" : "Outdoor play";
+  var plans = [
+    bible + "\n" + reading + "\n" + mathW,
+    bible + "\nLibrary visit\n" + reading,
+    bible + "\n" + sensory + "\nArt + craft",
+    bible + "\n" + reading + "\n" + mathW,
+    bible + "\nFriday fun projects\nMovie or nature study",
+    "No formal school\nOutdoor learning",
+    "Rest day"
+  ];
+  DAYS.forEach(function(day, i) {
+    var key = "school_" + day;
+    var el = document.getElementById(key);
+    if (el && !el.value) {
+      el.value = plans[i];
+      localStorage.setItem(key, el.value);
+    }
+  });
+}
+
+function generateCeoWeek() {
+  var rev = document.getElementById("ceoRevenue") ? document.getElementById("ceoRevenue").value || "Revenue task" : "Revenue task";
+  var content = document.getElementById("ceoContent") ? document.getElementById("ceoContent").value || "Content batch" : "Content batch";
+  var doneBy = document.getElementById("ceoDoneBy") ? document.getElementById("ceoDoneBy").value || "After bedtime" : "After bedtime";
+  var plans = [
+    "CEO Hour: " + rev + "\nWindow: " + doneBy,
+    "CEO Hour: " + content + "\nWindow: " + doneBy,
+    "CEO Hour: Email + community\nWindow: " + doneBy,
+    "CEO Hour: " + rev + "\nWindow: " + doneBy,
+    "CEO Hour: Review wins + next week plan\nWindow: " + doneBy,
+    "Rest or light planning",
+    "Weekly review + intentions"
+  ];
+  DAYS.forEach(function(day, i) {
+    var key = "ceo_" + day;
+    var el = document.getElementById(key);
+    if (el && !el.value) {
+      el.value = plans[i];
+      localStorage.setItem(key, el.value);
+    }
+  });
+}
+
+function generateGoalsWeek() {
+  var wake = document.getElementById("wakeGoal") ? document.getElementById("wakeGoal").value || "5am" : "5am";
+  var fitness = document.getElementById("fitnessGoal") ? document.getElementById("fitnessGoal").value || "30 min walk" : "30 min walk";
+  var bible = document.getElementById("bibleGoal") ? document.getElementById("bibleGoal").value || "Bible reading" : "Bible reading";
+  var ceoH = document.getElementById("ceoHourGoal") ? document.getElementById("ceoHourGoal").value || "1 hr CEO Hour" : "1 hr CEO Hour";
+  DAYS.forEach(function(day) {
+    var key = "goals_" + day;
+    var el = document.getElementById(key);
+    if (el && !el.value) {
+      el.value = "Wake: " + wake + "\nFitness: " + fitness + "\nBible: " + bible + "\nCEO: " + ceoH;
+      localStorage.setItem(key, el.value);
+    }
+  });
+}
+
+function clearWeek() {
+  DAYS.forEach(function(day) {
+    ["week","meal","school","ceo","goals"].forEach(function(prefix) {
+      var key = prefix + "_" + day;
+      localStorage.removeItem(key);
+      var el = document.getElementById(key);
+      if (el) el.value = "";
+    });
+  });
+  showToast("Week cleared");
+}
+
+function clearSection(prefix) {
+  DAYS.forEach(function(day) {
+    var key = prefix + "_" + day;
+    localStorage.removeItem(key);
+    var el = document.getElementById(key);
+    if (el) el.value = "";
+  });
+  showToast("Section cleared");
+}
+
+// ============================================================
+// GROCERY LIST
+// ============================================================
+var groceryItems = [];
+var familyGroceryItems = [];
+
+function loadGrocery() {
+  var raw = localStorage.getItem(GROCERY_KEY);
+  if (raw) {
+    try { groceryItems = JSON.parse(raw); } catch(e) { groceryItems = []; }
+  }
+}
+
+function saveGrocery() {
+  localStorage.setItem(GROCERY_KEY, JSON.stringify(groceryItems));
+}
+
+function addGrocery() {
+  var inp = document.getElementById("groceryInput");
+  if (!inp || !inp.value.trim()) return;
+  groceryItems.push({ text: inp.value.trim(), done: false });
+  inp.value = "";
+  saveGrocery();
+  renderGroceryList();
+}
+
+function toggleGroceryItem(idx) {
+  groceryItems[idx].done = !groceryItems[idx].done;
+  saveGrocery();
+  renderGroceryList();
+}
+
+function removeGroceryItem(idx) {
+  groceryItems.splice(idx, 1);
+  saveGrocery();
+  renderGroceryList();
+}
+
+function clearGrocery() {
+  groceryItems = [];
+  saveGrocery();
+  renderGroceryList();
+}
+
+function renderGroceryList() {
+  loadGrocery();
+  var container = document.getElementById("groceryList");
+  if (!container) return;
+  if (groceryItems.length === 0) {
+    container.innerHTML = "<p style=\"font-size:13px;color:var(--text-muted);padding:8px 0;\">No items yet. Add something above.</p>";
+    return;
+  }
+  var html = "";
+  for (var i = 0; i < groceryItems.length; i++) {
+    var item = groceryItems[i];
+    html += "<div class=\"list-item" + (item.done ? " crossed" : "") + "\">";
+    html += "<span onclick=\"toggleGroceryItem(" + i + ")\" style=\"cursor:pointer;\">" + escHtml(item.text) + "</span>";
+    html += "<button onclick=\"removeGroceryItem(" + i + ")\" style=\"background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;padding:2px 6px;\" title=\"Remove\">x</button>";
+    html += "</div>";
+  }
+  container.innerHTML = html;
+}
+
+function addFamilyGrocery() {
+  var inp = document.getElementById("familyGroceryInput");
+  if (!inp || !inp.value.trim()) return;
+  familyGroceryItems.push({ text: inp.value.trim(), done: false });
+  inp.value = "";
+  localStorage.setItem(FAMILY_GROCERY_KEY, JSON.stringify(familyGroceryItems));
+  renderFamilyGroceryList();
+}
+
+function toggleFamilyGrocery(idx) {
+  familyGroceryItems[idx].done = !familyGroceryItems[idx].done;
+  localStorage.setItem(FAMILY_GROCERY_KEY, JSON.stringify(familyGroceryItems));
+  renderFamilyGroceryList();
+}
+
+function renderFamilyGroceryList() {
+  var raw = localStorage.getItem(FAMILY_GROCERY_KEY);
+  if (raw) {
+    try { familyGroceryItems = JSON.parse(raw); } catch(e) { familyGroceryItems = []; }
+  }
+  var container = document.getElementById("familyGroceryList");
+  if (!container) return;
+  if (familyGroceryItems.length === 0) {
+    container.innerHTML = "<p style=\"font-size:13px;color:var(--text-muted);padding:8px 0;\">No items yet.</p>";
+    return;
+  }
+  var html = "";
+  for (var i = 0; i < familyGroceryItems.length; i++) {
+    var item = familyGroceryItems[i];
+    html += "<div class=\"list-item" + (item.done ? " crossed" : "") + "\">";
+    html += "<span onclick=\"toggleFamilyGrocery(" + i + ")\" style=\"cursor:pointer;\">" + escHtml(item.text) + "</span>";
+    html += "</div>";
+  }
+  container.innerHTML = html;
+}
+
+// ============================================================
+// HABIT STREAK TRACKER
+// ============================================================
+var STREAK_HABITS = ["Wake", "Fitness", "Bible", "CEO Hour"];
+
+function renderStreakTrackers() {
+  var container = document.getElementById("streakTrackers");
+  if (!container) return;
+  var streakData = loadStreakData();
+  var html = "";
+  STREAK_HABITS.forEach(function(habit) {
+    var key = habit.replace(" ", "_");
+    var days = streakData[key] || {};
+    var count = countStreak(days);
+    html += "<div style=\"margin-bottom:22px;\">";
+    html += "<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;\">";
+    html += "<div style=\"font-weight:700;font-size:14px;color:var(--text);\">" + habit + "</div>";
+    html += "<div style=\"display:flex;flex-direction:column;align-items:flex-end;\">";
+    html += "<div class=\"streak-count\">" + count + "</div>";
+    html += "<div class=\"streak-label\">day streak</div>";
+    html += "</div></div>";
+    html += "<div class=\"streak-grid\" id=\"streak_" + key + "\">";
+    var today = new Date();
+    for (var d = 29; d >= 0; d--) {
+      var date = new Date(today);
+      date.setDate(today.getDate() - d);
+      var dateStr = date.toDateString();
+      var isDone = days[dateStr] ? true : false;
+      var dayNum = date.getDate();
+      html += "<div class=\"streak-dot" + (isDone ? " done" : "") + "\" onclick=\"toggleStreakDay('" + key + "','" + dateStr + "')\" title=\"" + date.toLocaleDateString() + "\">" + (isDone ? "" : dayNum) + "</div>";
+    }
+    html += "</div></div>";
+  });
+  container.innerHTML = html;
+}
+
+function loadStreakData() {
+  var raw = localStorage.getItem(STREAK_KEY);
+  if (raw) {
+    try { return JSON.parse(raw); } catch(e) {}
+  }
+  return {};
+}
+
+function toggleStreakDay(habit, dateStr) {
+  var data = loadStreakData();
+  if (!data[habit]) data[habit] = {};
+  if (data[habit][dateStr]) {
+    delete data[habit][dateStr];
+  } else {
+    data[habit][dateStr] = true;
+  }
+  localStorage.setItem(STREAK_KEY, JSON.stringify(data));
+  renderStreakTrackers();
+}
+
+function countStreak(days) {
+  var count = 0;
+  var today = new Date();
+  for (var d = 0; d < 30; d++) {
+    var date = new Date(today);
+    date.setDate(today.getDate() - d);
+    if (days[date.toDateString()]) {
+      count++;
+    } else {
+      break;
+    }
+  }
+  return count;
+}
+
+// ============================================================
+// HOMEMAKING ACCORDION
+// ============================================================
+function renderHomemakingAccordion() {
+  var container = document.getElementById("homemakingAccordion");
+  if (!container) return;
+  var savedData = loadHomemakingData();
+  var html = "";
+  HOMEMAKING_SECTIONS.forEach(function(section) {
+    var tasks = savedData[section.id] || section.tasks.map(function(t) { return { text: t, done: false }; });
+    var doneCount = tasks.filter(function(t) { return t.done; }).length;
+    var pct = tasks.length > 0 ? Math.round((doneCount / tasks.length) * 100) : 0;
+    html += "<div class=\"accordion-section\">";
+    html += "<div class=\"accordion-header\" onclick=\"toggleAccordion('" + section.id + "',this)\">";
+    html += "<span>" + section.label + " (" + doneCount + "/" + tasks.length + ")</span>";
+    html += "<span class=\"acc-arrow\">v</span>";
+    html += "</div>";
+    html += "<div class=\"accordion-body\" id=\"acc_body_" + section.id + "\">";
+    html += "<div class=\"acc-progress\"><div class=\"acc-progress-fill\" id=\"acc_prog_" + section.id + "\" style=\"width:" + pct + "%\"></div></div>";
+    html += "<div class=\"acc-tasks\" id=\"acc_tasks_" + section.id + "\">";
+    tasks.forEach(function(task, idx) {
+      html += "<label class=\"acc-task" + (task.done ? " done" : "") + "\">";
+      html += "<input type=\"checkbox\"" + (task.done ? " checked" : "") + " onchange=\"toggleAccTask('" + section.id + "'," + idx + ",this)\"/>";
+      html += "<span>" + escHtml(task.text) + "</span>";
+      html += "</label>";
+    });
+    html += "</div>";
+    html += "<div class=\"acc-custom-row\">";
+    html += "<input type=\"text\" id=\"acc_input_" + section.id + "\" placeholder=\"Add custom task...\"/>";
+    html += "<button class=\"btn btn-primary btn-sm\" onclick=\"addAccTask('" + section.id + "')\">Add</button>";
+    html += "<button class=\"btn btn-secondary btn-sm\" onclick=\"resetAccSection('" + section.id + "')\">Reset</button>";
+    html += "</div>";
+    html += "</div></div>";
+  });
+  container.innerHTML = html;
+}
+
+function toggleAccordion(id, header) {
+  var body = document.getElementById("acc_body_" + id);
+  if (!body) return;
+  var isOpen = body.classList.contains("open");
+  if (isOpen) {
+    body.classList.remove("open");
+    header.classList.remove("open");
+  } else {
+    body.classList.add("open");
+    header.classList.add("open");
+  }
+}
+
+function toggleAccTask(sectionId, idx, checkbox) {
+  var data = loadHomemakingData();
+  var section = HOMEMAKING_SECTIONS.find(function(s) { return s.id === sectionId; });
+  if (!data[sectionId] && section) {
+    data[sectionId] = section.tasks.map(function(t) { return { text: t, done: false }; });
+  }
+  if (data[sectionId] && data[sectionId][idx] !== undefined) {
+    data[sectionId][idx].done = checkbox.checked;
+  }
+  saveHomemakingData(data);
+  updateAccProgress(sectionId, data[sectionId] || []);
+}
+
+function addAccTask(sectionId) {
+  var inp = document.getElementById("acc_input_" + sectionId);
+  if (!inp || !inp.value.trim()) return;
+  var data = loadHomemakingData();
+  var section = HOMEMAKING_SECTIONS.find(function(s) { return s.id === sectionId; });
+  if (!data[sectionId] && section) {
+    data[sectionId] = section.tasks.map(function(t) { return { text: t, done: false }; });
+  }
+  if (!data[sectionId]) data[sectionId] = [];
+  data[sectionId].push({ text: inp.value.trim(), done: false });
+  inp.value = "";
+  saveHomemakingData(data);
+  renderHomemakingAccordion();
+  var body = document.getElementById("acc_body_" + sectionId);
+  if (body) body.classList.add("open");
+}
+
+function resetAccSection(sectionId) {
+  var data = loadHomemakingData();
+  var section = HOMEMAKING_SECTIONS.find(function(s) { return s.id === sectionId; });
+  if (section) {
+    data[sectionId] = section.tasks.map(function(t) { return { text: t, done: false }; });
+  }
+  saveHomemakingData(data);
+  renderHomemakingAccordion();
+  var body = document.getElementById("acc_body_" + sectionId);
+  if (body) body.classList.add("open");
+  showToast(sectionId + " tasks reset");
+}
+
+function updateAccProgress(sectionId, tasks) {
+  var doneCount = tasks.filter(function(t) { return t.done; }).length;
+  var pct = tasks.length > 0 ? Math.round((doneCount / tasks.length) * 100) : 0;
+  var bar = document.getElementById("acc_prog_" + sectionId);
+  if (bar) bar.style.width = pct + "%";
+}
+
+function loadHomemakingData() {
+  var raw = localStorage.getItem(HOMEMAKING_KEY);
+  if (raw) {
+    try { return JSON.parse(raw); } catch(e) {}
+  }
+  return {};
+}
+
+function saveHomemakingData(data) {
+  localStorage.setItem(HOMEMAKING_KEY, JSON.stringify(data));
+}
+
+// ============================================================
+// FAMILY HUB -- CHILD PROFILES
+// ============================================================
+var childrenData = [];
+var CHILD_EMOJIS = ["🧒","👦","👧","🧒","👶","🐣","🌟","🦋"];
+
+function loadChildren() {
+  var raw = localStorage.getItem(CHILDREN_KEY);
+  if (raw) {
+    try { childrenData = JSON.parse(raw); } catch(e) { childrenData = []; }
+  }
+}
+
+function saveChildren() {
+  localStorage.setItem(CHILDREN_KEY, JSON.stringify(childrenData));
+}
+
+function addChild() {
+  childrenData.push({
+    name: "Child " + (childrenData.length + 1),
+    emoji: CHILD_EMOJIS[childrenData.length % CHILD_EMOJIS.length],
+    readingLog: "",
+    swimLevel: "Beginner",
+    homeschoolPlan: "",
+    notes: ""
+  });
+  saveChildren();
+  renderChildProfiles();
+}
+
+function renderChildProfiles() {
+  loadChildren();
+  var container = document.getElementById("childProfiles");
+  if (!container) return;
+  if (childrenData.length === 0) {
+    container.innerHTML = "<p style=\"font-size:14px;color:var(--text-muted);padding:8px 0;\">No child profiles yet. Tap Add child to get started.</p>";
+    return;
+  }
+  var html = "";
+  for (var i = 0; i < childrenData.length; i++) {
+    var child = childrenData[i];
+    html += "<div class=\"child-card\">";
+    html += "<div class=\"child-avatar\">" + child.emoji + "</div>";
+    html += "<div class=\"child-name-row\">";
+    html += "<input class=\"child-name-input\" id=\"child_name_" + i + "\" value=\"" + escHtml(child.name) + "\" onchange=\"updateChild(" + i + ",'name',this.value)\" placeholder=\"Child name\"/>";
+    html += "</div>";
+    html += "<div style=\"margin-bottom:8px;\"><label class=\"flabel\">Reading Log</label>";
+    html += "<textarea id=\"child_reading_" + i + "\" placeholder=\"Books read, pages, progress...\" onchange=\"updateChild(" + i + ",'readingLog',this.value)\" style=\"min-height:60px;font-size:13px;\">" + escHtml(child.readingLog) + "</textarea></div>";
+    html += "<div style=\"margin-bottom:8px;\"><label class=\"flabel\">Swim Level</label>";
+    html += "<select id=\"child_swim_" + i + "\" onchange=\"updateChild(" + i + ",'swimLevel',this.value)\" style=\"width:100%;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:9px 12px;font-family:'Inter',sans-serif;font-size:13px;color:var(--text);\">";
+    var swimLevels = ["Beginner","Level 1","Level 2","Level 3","Level 4","Level 5","Swim Team"];
+    swimLevels.forEach(function(lvl) {
+      html += "<option value=\"" + lvl + "\"" + (child.swimLevel === lvl ? " selected" : "") + ">" + lvl + "</option>";
+    });
+    html += "</select></div>";
+    html += "<div style=\"margin-bottom:8px;\"><label class=\"flabel\">Homeschool Plan</label>";
+    html += "<textarea id=\"child_school_" + i + "\" placeholder=\"Curriculum, subjects, weekly focus...\" onchange=\"updateChild(" + i + ",'homeschoolPlan',this.value)\" style=\"min-height:60px;font-size:13px;\">" + escHtml(child.homeschoolPlan) + "</textarea></div>";
+    html += "<button class=\"btn btn-secondary btn-sm\" onclick=\"removeChild(" + i + ")\" style=\"margin-top:4px;\">Remove</button>";
+    html += "</div>";
+  }
+  container.innerHTML = html;
+}
+
+function updateChild(idx, field, value) {
+  if (childrenData[idx] !== undefined) {
+    childrenData[idx][field] = value;
+    saveChildren();
+  }
+}
+
+function removeChild(idx) {
+  childrenData.splice(idx, 1);
+  saveChildren();
+  renderChildProfiles();
+}
+
+function addChore() {
+  var list = document.getElementById("choreChart");
+  if (!list) return;
+  var row = document.createElement("div");
+  row.className = "check-row";
+  row.onclick = function() { toggleCheck(row); };
+  row.innerHTML = "<div class=\"check-box\"><span class=\"check-tick\">v</span></div><div class=\"check-lbl\" contenteditable=\"true\">New chore</div>";
+  list.appendChild(row);
+}
+
+// ============================================================
+// FAQ ACCORDION
+// ============================================================
+function renderFaqAccordion() {
+  var container = document.getElementById("faqAccordion");
+  if (!container) return;
+  var html = "";
+  FAQ_ITEMS.forEach(function(item, i) {
+    html += "<div class=\"help-item\">";
+    html += "<div class=\"help-q\" onclick=\"toggleFaq(" + i + ",this)\">";
+    html += "<span>" + item.q + "</span>";
+    html += "<span class=\"hq-arrow\">v</span>";
+    html += "</div>";
+    html += "<div class=\"help-a\" id=\"faq_a_" + i + "\">" + item.a + "</div>";
+    html += "</div>";
+  });
+  container.innerHTML = html;
+}
+
+function toggleFaq(idx, headerEl) {
+  var body = document.getElementById("faq_a_" + idx);
+  if (!body) return;
+  var isOpen = body.classList.contains("open");
+  if (isOpen) {
+    body.classList.remove("open");
+    headerEl.classList.remove("open");
+  } else {
+    body.classList.add("open");
+    headerEl.classList.add("open");
+  }
+}
+
+// ============================================================
+// WEEKLY ROLLOVER MODAL
+// ============================================================
+function checkSundayRollover() {
+  var day = new Date().getDay();
+  if (day !== 0) return;
+  var dismissed = localStorage.getItem(ROLLOVER_KEY);
+  var thisWeek = getWeekString();
+  if (dismissed === thisWeek) return;
+  var incomplete = getIncompleteItems();
+  if (incomplete.length === 0) return;
+  showRolloverModal(incomplete);
+}
+
+function getWeekString() {
+  var d = new Date();
+  var start = new Date(d);
+  start.setDate(d.getDate() - d.getDay());
+  return start.toDateString();
+}
+
+function getIncompleteItems() {
+  var items = [];
+  var rows = document.querySelectorAll("#todayChecklist .check-row:not(.done)");
+  rows.forEach(function(r) {
+    var lbl = r.querySelector(".check-lbl");
+    if (lbl && lbl.textContent.trim()) items.push(lbl.textContent.trim());
+  });
+  return items;
+}
+
+function showRolloverModal(items) {
+  var modal = document.getElementById("rolloverModal");
+  var container = document.getElementById("rolloverItems");
+  if (!modal || !container) return;
+  var html = "";
+  items.forEach(function(item, i) {
+    html += "<div class=\"rollover-item\">";
+    html += "<input type=\"checkbox\" id=\"rollover_item_" + i + "\" checked/>";
+    html += "<label for=\"rollover_item_" + i + "\">" + escHtml(item) + "</label>";
+    html += "</div>";
+  });
+  container.innerHTML = html;
+  modal.classList.add("open");
+}
+
+function rolloverToMonday() {
+  var checks = document.querySelectorAll("[id^='rollover_item_']");
+  var moved = [];
+  checks.forEach(function(cb) {
+    if (cb.checked) {
+      var lbl = cb.parentElement.querySelector("label");
+      if (lbl) moved.push(lbl.textContent.trim());
+    }
+  });
+  var mondayKey = "week_Monday";
+  var existing = localStorage.getItem(mondayKey) || "";
+  if (moved.length > 0) {
+    var addition = "\n\nRolled over:\n" + moved.join("\n");
+    var el = document.getElementById(mondayKey);
+    if (el) {
+      el.value = existing + addition;
+      localStorage.setItem(mondayKey, el.value);
+    }
+  }
+  closeRollover();
+  showToast("Items moved to Monday!");
+}
+
+function startFreshWeek() {
+  clearWeek();
+  closeRollover();
+  showToast("Fresh week started!");
+}
+
+function closeRollover() {
+  var modal = document.getElementById("rolloverModal");
+  if (modal) modal.classList.remove("open");
+  localStorage.setItem(ROLLOVER_KEY, getWeekString());
+}
+
+// ============================================================
+// CONFETTI
+// ============================================================
+function launchConfetti() {
+  var burst = document.getElementById("confettiBurst");
+  if (!burst) return;
+  var colors = ["#4a7858","#c9973a","#c07050","#6b9e78","#e0a840","#f0ddb0"];
+  var html = "";
+  for (var i = 0; i < 80; i++) {
+    var color = colors[Math.floor(Math.random() * colors.length)];
+    var left = Math.random() * 100;
+    var delay = Math.random() * 2;
+    var duration = 2 + Math.random() * 2;
+    var size = 6 + Math.floor(Math.random() * 10);
+    html += "<div class=\"confetti-piece\" style=\"";
+    html += "left:" + left + "%;";
+    html += "background:" + color + ";";
+    html += "width:" + size + "px;height:" + size + "px;";
+    html += "border-radius:" + (Math.random() > 0.5 ? "50%" : "2px") + ";";
+    html += "animation-delay:" + delay + "s;";
+    html += "animation-duration:" + duration + "s;\"></div>";
+  }
+  burst.innerHTML = html;
+  setTimeout(function() { burst.innerHTML = ""; }, 5000);
+}
+
+// ============================================================
+// UTILITY
+// ============================================================
+
+// ============================================================
+// FOUNDER ADMIN TOOLS
+// ============================================================
+var FOUNDER_MEMORY_KEY = "bloom_founder_memory";
+var FOUNDER_TIMELINE_KEY = "bloom_founder_timeline";
+var FOUNDER_AI_KEY = "bloom_founder_ai_controls";
+
+async function founderLogin() {
+  var emailEl = document.getElementById("authEmail");
+  var passEl = document.getElementById("authPassword");
+  var email = emailEl ? emailEl.value.trim() : "";
+  var password = passEl ? passEl.value : "";
+  if (!email || !password) {
+    setCloudStatus("Enter your email and password.");
+    return;
+  }
+  if (!cloudReady || !bloomSupabase) initSupabaseClient();
+  if (!cloudReady || !bloomSupabase) {
+    setCloudStatus("Cloud sync is not ready. Refresh and try again.");
+    return;
+  }
+  setCloudStatus("Signing in...");
+  var result = await bloomSupabase.auth.signInWithPassword({ email: email, password: password });
+  if (result.error) {
+    setCloudStatus("Sign in failed: " + result.error.message);
+    return;
+  }
+  bloomCloudUser = result.data.user;
+  await loadBloomCloudData();
+  localStorage.setItem("bloom_founder_authed", "1");
+  localStorage.setItem(NAME_KEY, "Jullisa");
+  localStorage.setItem(PLAN_KEY, "family");
+  enterFounderApp();
+  setupCloudAutosave();
+  setCloudStatus("Signed in. Cloud sync active.");
+  showToast("Founder cloud sync unlocked");
+}
+
+async function founderSignUp() {
+  var emailEl = document.getElementById("authEmail");
+  var passEl = document.getElementById("authPassword");
+  var email = emailEl ? emailEl.value.trim() : "";
+  var password = passEl ? passEl.value : "";
+  if (!email || !password) {
+    setCloudStatus("Enter your email and password first.");
+    return;
+  }
+  if (!cloudReady || !bloomSupabase) initSupabaseClient();
+  if (!cloudReady || !bloomSupabase) {
+    setCloudStatus("Cloud sync is not ready. Refresh and try again.");
+    return;
+  }
+  setCloudStatus("Creating account...");
+  var result = await bloomSupabase.auth.signUp({ email: email, password: password });
+  if (result.error) {
+    setCloudStatus("Create account failed: " + result.error.message);
+    return;
+  }
+  setCloudStatus("Account created. If Supabase asks for confirmation, check your email. Then sign in.");
+  showToast("Bloom account created");
+}
+
+async function founderSignOut() {
+  await saveBloomCloudData(true);
+  if (bloomSupabase) await bloomSupabase.auth.signOut();
+  localStorage.removeItem("bloom_founder_authed");
+  bloomCloudUser = null;
+  var fl = document.getElementById("founderLogin");
+  var app = document.getElementById("app");
+  var landing = document.getElementById("landing");
+  if (app) app.style.display = "none";
+  if (landing) landing.style.display = "none";
+  if (fl) fl.style.display = "flex";
+  setCloudStatus("Signed out. Sign in to sync again.");
+}
+
+function loadFounderAdmin() {
+  loadFounderTimeline();
+  renderFounderMemory();
+  loadFounderAIControls();
+  refreshFounderProfilePreview();
+}
+
+function loadFounderTimeline() {
+  var data = { yesterday:"", today:"", tomorrow:"" };
+  var raw = localStorage.getItem(FOUNDER_TIMELINE_KEY);
+  if (raw) {
+    try { data = JSON.parse(raw); } catch(e) {}
+  }
+  var y = document.getElementById("founderYesterday");
+  var t = document.getElementById("founderToday");
+  var tm = document.getElementById("founderTomorrow");
+  if (y) y.value = data.yesterday || "";
+  if (t) t.value = data.today || "";
+  if (tm) tm.value = data.tomorrow || "";
+}
+
+function saveFounderTimeline() {
+  var data = {
+    yesterday: document.getElementById("founderYesterday") ? document.getElementById("founderYesterday").value : "",
+    today: document.getElementById("founderToday") ? document.getElementById("founderToday").value : "",
+    tomorrow: document.getElementById("founderTomorrow") ? document.getElementById("founderTomorrow").value : ""
+  };
+  localStorage.setItem(FOUNDER_TIMELINE_KEY, JSON.stringify(data));
+  showToast("Founder timeline saved");
+}
+
+function rollFounderTimeline() {
+  var today = document.getElementById("founderToday") ? document.getElementById("founderToday").value : "";
+  var tomorrow = document.getElementById("founderTomorrow") ? document.getElementById("founderTomorrow").value : "";
+  if (document.getElementById("founderYesterday")) document.getElementById("founderYesterday").value = today;
+  if (document.getElementById("founderToday")) document.getElementById("founderToday").value = tomorrow;
+  if (document.getElementById("founderTomorrow")) document.getElementById("founderTomorrow").value = "";
+  saveFounderTimeline();
+}
+
+function clearFounderTimeline() {
+  if (!confirm("Clear founder timeline?")) return;
+  if (document.getElementById("founderYesterday")) document.getElementById("founderYesterday").value = "";
+  if (document.getElementById("founderToday")) document.getElementById("founderToday").value = "";
+  if (document.getElementById("founderTomorrow")) document.getElementById("founderTomorrow").value = "";
+  saveFounderTimeline();
+}
+
+function getFounderMemory() {
+  var raw = localStorage.getItem(FOUNDER_MEMORY_KEY);
+  if (raw) {
+    try { return JSON.parse(raw); } catch(e) {}
+  }
+  return [];
+}
+
+function saveFounderMemory(list) {
+  localStorage.setItem(FOUNDER_MEMORY_KEY, JSON.stringify(list));
+}
+
+function addFounderMemory() {
+  var cat = document.getElementById("memoryCategory") ? document.getElementById("memoryCategory").value : "Bloom OS";
+  var inp = document.getElementById("memoryText");
+  if (!inp || !inp.value.trim()) return;
+  var list = getFounderMemory();
+  list.unshift({ category: cat, text: inp.value.trim(), created: new Date().toISOString() });
+  inp.value = "";
+  saveFounderMemory(list);
+  renderFounderMemory();
+  showToast("Memory added");
+}
+
+function deleteFounderMemory(idx) {
+  var list = getFounderMemory();
+  list.splice(idx, 1);
+  saveFounderMemory(list);
+  renderFounderMemory();
+}
+
+function editFounderMemory(idx) {
+  var list = getFounderMemory();
+  var updated = prompt("Edit memory", list[idx] ? list[idx].text : "");
+  if (updated === null) return;
+  if (!updated.trim()) return;
+  list[idx].text = updated.trim();
+  saveFounderMemory(list);
+  renderFounderMemory();
+}
+
+function renderFounderMemory() {
+  var container = document.getElementById("memoryList");
+  if (!container) return;
+  var list = getFounderMemory();
+  if (list.length === 0) {
+    container.innerHTML = "<p style=\"font-size:13px;color:var(--text-muted);padding:8px 0;\">No founder memories yet. Add one above.</p>";
+    return;
+  }
+  var html = "";
+  list.forEach(function(item, idx) {
+    html += "<div class=\"memory-item\">";
+    html += "<div class=\"memory-item-text\"><strong style=\"color:var(--sage-dark);\">" + escHtml(item.category || "Memory") + "</strong><br>" + escHtml(item.text || "") + "</div>";
+    html += "<button onclick=\"editFounderMemory(" + idx + ")\" title=\"Edit\">Edit</button>";
+    html += "<button onclick=\"deleteFounderMemory(" + idx + ")\" title=\"Delete\">x</button>";
+    html += "</div>";
+  });
+  container.innerHTML = html;
+}
+
+function seedFounderMemory() {
+  var list = getFounderMemory();
+  var starters = [
+    { category:"Family", text:"Jullisa is building Bloom OS for her real family rhythm and daily use.", created:new Date().toISOString() },
+    { category:"Homeschool", text:"Homeschool needs to support Bible, phonics, math, writing, sensory play, and multiple children.", created:new Date().toISOString() },
+    { category:"Meals", text:"Meal planning should stay simple, budget-aware, family-friendly, and connected to grocery lists.", created:new Date().toISOString() },
+    { category:"Business", text:"Primary business focus is growing Jullisa Blooms and Bloom OS toward recurring revenue.", created:new Date().toISOString() },
+    { category:"Bloom OS", text:"Founder version should stay Pro/Family unlocked with no upgrade wall or Stripe path.", created:new Date().toISOString() }
+  ];
+  saveFounderMemory(starters.concat(list));
+  renderFounderMemory();
+  showToast("Starter memories added");
+}
+
+function saveFounderAIControls() {
+  var data = {
+    suggestions: document.getElementById("aiSuggestions") ? document.getElementById("aiSuggestions").value : "on",
+    note: document.getElementById("aiFounderNote") ? document.getElementById("aiFounderNote").value : ""
+  };
+  localStorage.setItem(FOUNDER_AI_KEY, JSON.stringify(data));
+  showToast("AI controls saved");
+}
+
+function loadFounderAIControls() {
+  var raw = localStorage.getItem(FOUNDER_AI_KEY);
+  if (!raw) return;
+  try {
+    var data = JSON.parse(raw);
+    if (document.getElementById("aiSuggestions")) document.getElementById("aiSuggestions").value = data.suggestions || "on";
+    if (document.getElementById("aiFounderNote")) document.getElementById("aiFounderNote").value = data.note || "";
+  } catch(e) {}
+}
+
+function refreshFounderProfilePreview() {
+  var el = document.getElementById("founderProfilePreview");
+  if (!el) return;
+  var raw = localStorage.getItem(ONBOARD_KEY);
+  if (!raw) {
+    el.textContent = "No onboarding profile saved yet. Go to My Week > Personalization Profile to add one.";
+    return;
+  }
+  try {
+    var data = JSON.parse(raw);
+    el.textContent = "Family rhythm:\n" + (data.rhythm || "") + "\n\nKids + homeschool:\n" + (data.kids || "") + "\n\nMeals:\n" + (data.meals || "") + "\n\nBusiness:\n" + (data.business || "") + "\n\nHome:\n" + (data.home || "") + "\n\nEnergy:\n" + (data.energy || "");
+  } catch(e) {
+    el.textContent = "Profile exists, but could not be read.";
+  }
+}
+
+function exportFounderData() {
+  var data = {};
+  for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    if (key && key.indexOf("bloom") === 0) data[key] = localStorage.getItem(key);
+  }
+  var blob = new Blob([JSON.stringify(data, null, 2)], { type:"application/json" });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = "bloom-os-founder-backup.json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast("Founder data exported");
+}
+
+function importFounderData(event) {
+  var file = event.target.files && event.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var data = JSON.parse(e.target.result);
+      Object.keys(data).forEach(function(key) {
+        if (key.indexOf("bloom") === 0) localStorage.setItem(key, data[key]);
+      });
+      localStorage.setItem("bloom_founder_authed", "1");
+      showToast("Founder data imported");
+      setTimeout(function(){ window.location.reload(); }, 500);
+    } catch(err) {
+      alert("Import failed. Please choose a valid Bloom OS JSON backup.");
+    }
+  };
+  reader.readAsText(file);
+}
+
+
+
+// ============================================================
+// CLOUD SYNC HELPERS - V17 FIX
+// ============================================================
+function setCloudStatus(message) {
+  var el = document.getElementById("cloudStatus");
+  if (el) el.textContent = message || "";
+  try { console.log("Bloom Cloud:", message); } catch(e) {}
+}
+
+function isBloomDataKey(key) {
+  return typeof key === "string" && key.indexOf("bloom") === 0;
+}
+
+function getBloomLocalData() {
+  var data = {};
+  for (var i = 0; i < localStorage.length; i++) {
+    var key = localStorage.key(i);
+    if (isBloomDataKey(key)) data[key] = localStorage.getItem(key);
+  }
+  return data;
+}
+
+function applyBloomLocalData(data) {
+  if (!data || typeof data !== "object") return;
+  cloudLoadInProgress = true;
+  Object.keys(data).forEach(function(key) {
+    if (isBloomDataKey(key) && data[key] !== null && data[key] !== undefined) {
+      localStorage.setItem(key, data[key]);
+    }
+  });
+  cloudLoadInProgress = false;
+}
+
+function setupCloudAutosave() {
+  document.addEventListener("input", function(e) {
+    var el = e.target;
+    if (!el || !el.id) return;
+    var tag = (el.tagName || "").toLowerCase();
+    if (tag === "input" || tag === "textarea" || tag === "select") {
+      scheduleCloudSave();
+    }
+  });
+  document.addEventListener("change", function() { scheduleCloudSave(); });
+}
+
+function scheduleCloudSave() {
+  if (cloudLoadInProgress || !bloomCloudUser) return;
+  clearTimeout(cloudSaveTimer);
+  cloudSaveTimer = setTimeout(function() { saveBloomCloudData(false); }, 900);
+}
+
+async function saveBloomCloudData(showMessage) {
+  if (!cloudReady || !bloomSupabase || !bloomCloudUser || cloudSaving) return;
+  cloudSaving = true;
+  if (showMessage) setCloudStatus("Saving Bloom to cloud...");
+  var payload = getBloomLocalData();
+  var result = await bloomSupabase
+    .from("bloom_user_data")
+    .upsert({
+      user_id: bloomCloudUser.id,
+      data: payload,
+      updated_at: new Date().toISOString()
+    }, { onConflict: "user_id" });
+  cloudSaving = false;
+  if (result.error) {
+    setCloudStatus("Cloud save failed: " + result.error.message);
+    return;
+  }
+  updateCloudBadge("Cloud saved");
+  if (showMessage) setCloudStatus("Saved to cloud.");
+}
+
+async function loadBloomCloudData() {
+  if (!cloudReady || !bloomSupabase || !bloomCloudUser) return;
+  setCloudStatus("Loading Bloom from cloud...");
+  var result = await bloomSupabase
+    .from("bloom_user_data")
+    .select("data, updated_at")
+    .eq("user_id", bloomCloudUser.id)
+    .maybeSingle();
+  if (result.error) {
+    setCloudStatus("Cloud load failed: " + result.error.message);
+    return;
+  }
+  if (result.data && result.data.data) {
+    applyBloomLocalData(result.data.data);
+    setCloudStatus("Cloud data loaded.");
+  } else {
+    setCloudStatus("No cloud data yet. Your first changes will create it.");
+    await saveBloomCloudData(false);
+  }
+}
+
+function updateCloudBadge(label) {
+  var row = document.getElementById("memberBadgeRow");
+  if (!row) return;
+  var existing = row.textContent || "";
+  var cloudText = label || (bloomCloudUser ? "Cloud sync active" : "Cloud sync off");
+  if (existing.indexOf("Cloud") === -1) {
+    row.textContent = (existing ? existing + " | " : "") + cloudText;
+    row.style.display = "block";
+  }
+}
+
+function loadAllEditableFieldsFromLocal() {
+  var ids = [
+    "events","priorities","revenueTask","doneBy","breakfast","lunch","dinner",
+    "bible","reading","mathWriting","sensory","incomeGoal","ceoRevenue","ceoDoneBy","ceoContent",
+    "incomeEarned","incomeNotes","wakeGoal","fitnessGoal","bibleGoal","ceoHourGoal","familyCalendar"
+  ];
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var saved = localStorage.getItem(id);
+    if (saved !== null) el.value = saved;
+    el.addEventListener("input", function() { localStorage.setItem(id, el.value); });
+    el.addEventListener("change", function() { localStorage.setItem(id, el.value); });
+  });
+}
+
+// Manual helpers available from console/buttons if needed.
+window.bloomSaveToCloud = function() { return saveBloomCloudData(true); };
+window.bloomLoadFromCloud = async function() {
+  await loadBloomCloudData();
+  enterFounderApp();
+};
+
+window.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>
